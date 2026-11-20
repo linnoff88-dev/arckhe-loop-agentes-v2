@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>2.3 Definir e checar "pronto" | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217,119,6,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) { .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; } }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha2/modulo-2-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha2/modulo-2-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha2/modulo-2-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-2-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha2/modulo-2-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha2/modulo-2-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-blue-400 focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Quando usar</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Prática</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../../curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Loop Engineering</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Minha jornada</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Alternar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Início</a><span>/</span>
+<a class="hover:text-blue-400" href="index.html">Trilha 2</a><span>/</span>
+<span class="text-blue-400">Módulo 2.3</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🏁 Definir e checar "pronto"</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Um loop é tão bom quanto a sua linha de chegada. Aqui você trava o que "pronto" significa e escolhe entre os 4 tipos de check — Functional, Visual, Judgment e You-decide. Quanto mais objetivo o "pronto", melhor o loop.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">~40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Base</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Progresso do módulo 2.3" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:2-3" role="progressbar">
+<span class="text-sm text-neutral-400">Progresso:</span>
+<span class="inema-meter-pct text-blue-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 de 6</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Índice da página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-1">1. Trave a linha de chegada</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-2">2. Check Functional</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-3">3. Check Visual</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-4">4. Check Judgment</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-5">5. Check You-decide</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10" href="#topico-6">6. Objetivo vs subjetivo</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">🏁 Trave sua linha de chegada</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t1-p1">Antes de rodar qualquer loop, responda duas coisas: <strong class="text-blue-400">o que "pronto" significa</strong> (escrito de um jeito que uma máquina consiga checar) e <strong class="text-blue-400">como você vai checar</strong>. Essas duas respostas <em>são</em> a checagem "pronto?" do loop — não um detalhe, mas o motor da parada.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "linha de chegada"</p>
+<p class="text-sm text-neutral-300">É o critério que diz "acabou". Sem uma linha de chegada nítida, o loop não sabe se parar — e aí ou entrega cedo demais (quebrado), ou nunca para. Travar a linha de chegada é escrever esse critério <em>antes</em> de o agente começar a correr.</p>
+</aside>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Duas perguntas, o que pronto significa e como checar, se juntam e viram a checagem pronto do loop" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m23a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m23a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m23a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m23a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m23a-grid)" height="230" width="1000" x="0" y="0"></rect>
+<rect fill="#0e1622" height="54" rx="13" stroke="url(#m23a-grad)" stroke-width="2.2" width="260" x="60" y="40"></rect>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" x="190" y="64">1. o que é "pronto"</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="190" y="83">(uma máquina lê)</text>
+<rect fill="#0e1b26" height="54" rx="13" stroke="#38bdf8" stroke-width="2.2" width="260" x="60" y="136"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="13.5" font-weight="600" text-anchor="middle" x="190" y="160">2. como vou checar</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="190" y="179">(o método)</text>
+<g filter="url(#m23a-glow)"><rect fill="#0e2018" height="58" rx="15" stroke="#34d399" stroke-width="2.5" width="300" x="600" y="86"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="750" y="111">a checagem "pronto?"</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="750" y="131">do seu loop</text>
+<g fill="none" opacity="0.8" stroke="#60a5fa" stroke-width="2">
+<path class="wf-flow" d="M320,67 C470,67 480,108 598,112" marker-end="url(#m23a-ah)"></path>
+<path class="wf-flow" d="M320,163 C470,163 480,122 598,118" marker-end="url(#m23a-ah)"></path>
+</g>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-blue-400">Leia o diagrama:</strong> as duas respostas não ficam soltas — elas se somam e <em>viram</em> a checagem que o loop usa a cada volta. Definir "pronto" e definir "como checar" é definir o loop.</p>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🧩</span> Os 4 tipos de check</h3>
+<p class="text-neutral-300">Como você checa depende da tarefa. Existem quatro jeitos, do mais fácil ao mais humano: <strong>Functional</strong> (máquina decide), <strong>Visual</strong> (precisa ser visto), <strong>Judgment</strong> (rubrica + 2º agente) e <strong>You-decide</strong> (você aprova). Os próximos tópicos abrem cada um.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">✅ Check Functional</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t2-p1">O check <strong class="text-blue-400">Functional</strong> é quando uma máquina responde sim/não com <strong class="text-blue-400">zero opinião</strong>: os testes passam, o app roda, o build compila. É o mais fácil de todos — comece por ele sempre que der.</p>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="Os quatro tipos de check em fileira: functional com um sinal verde de teste, visual com um olho, judgment com uma rubrica, you-decide com uma mão humana" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t2-checks.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-blue-400">O que ver:</strong> os quatro checks, da esquerda (mais automático) para a direita (mais humano). O Functional é o primeiro — um verde/vermelho que a máquina lê sem precisar de você.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-blue-400 mb-1">Testes passam</h4><p class="text-sm text-neutral-400">Rodar a suíte → "0 falhando". Sim ou não, sem debate.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-blue-400 mb-1">App roda</h4><p class="text-sm text-neutral-400">Subir o app → responde na porta? Boot sem erro?</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-blue-400 mb-1">Build compila</h4><p class="text-sm text-neutral-400">Compilar → "sucesso" ou "erro na linha X". Binário.</p></div>
+</div>
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-2 flex items-center"><span class="mr-2">✓</span> Por que começar pelo Functional</h3>
+<p class="text-neutral-300">É inquestionável e barato: a máquina já dá a resposta, você não precisa interpretar nada. Sempre que conseguir reduzir o "pronto" a um teste que roda, faça — é o tipo de check mais confiável que existe.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">👁️ Check Visual</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t3-p1">Às vezes o resultado <strong class="text-blue-400">precisa ser visto</strong> para ser julgado: uma UI, um thumbnail, um layout. Esse é o check <strong class="text-blue-400">Visual</strong>. A boa notícia: a maioria dos agentes hoje consegue <em>olhar imagens</em> ou <em>tirar um screenshot</em> e julgar a partir dele.</p>
+<div class="grid lg:grid-cols-2 gap-6 mb-6 items-center">
+<div>
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6 mb-4">
+<h4 class="font-bold text-emerald-400 mb-2">✓ O agente vê</h4>
+<p class="text-sm text-neutral-300">Ele tira um screenshot da tela, abre a imagem gerada, e compara com o que foi pedido — "o botão está centralizado?", "as cores batem?".</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ Checar só pelo código</h4>
+<p class="text-sm text-neutral-300">Olhar o CSS e supor que ficou bom é cego — o pixel final pode estar quebrado mesmo com o código "certo". Visual pede ver o pixel.</p>
+</div>
+</div>
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<svg aria-label="Um agente tira um screenshot da tela, olha a imagem e devolve um veredito visual" class="w-full h-auto" role="img" viewbox="0 0 500 320">
+<defs>
+<lineargradient id="m23b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop></lineargradient>
+<filter height="180%" id="m23b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="28" id="m23b-grid" patternunits="userSpaceOnUse" width="28"><circle cx="1.2" cy="1.2" fill="#3b82f6" opacity="0.12" r="1.2"></circle></pattern>
+<marker id="m23b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m23b-grid)" height="320" width="500" x="0" y="0"></rect>
+<rect fill="#0e1622" height="120" rx="10" stroke="#38bdf8" stroke-width="2" width="180" x="60" y="40"></rect>
+<rect fill="#1e3a5f" height="14" rx="4" width="144" x="78" y="58"></rect>
+<rect fill="#22405f" height="10" rx="3" width="100" x="78" y="84"></rect>
+<rect fill="#22405f" height="10" rx="3" width="120" x="78" y="104"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="150" y="148">screenshot</text>
+<g filter="url(#m23b-glow)"><circle cx="370" cy="100" fill="#0e2018" r="46" stroke="url(#m23b-grad)" stroke-width="2.5"></circle></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="370" y="96">agente</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="370" y="114">olha 👁️</text>
+<path class="wf-flow" d="M240,100 L320,100" fill="none" marker-end="url(#m23b-ah)" stroke="#60a5fa" stroke-width="2"></path>
+<rect fill="#0e1b26" height="56" rx="12" stroke="#38bdf8" stroke-width="2" width="220" x="150" y="220"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12.5" font-weight="600" text-anchor="middle" x="260" y="244">veredito visual</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="260" y="263">"centralizado? cores ok?"</text>
+<path class="wf-flow" d="M370,146 C370,200 300,210 270,218" fill="none" marker-end="url(#m23b-ah)" stroke="#60a5fa" stroke-width="2"></path>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-blue-400">O que ver:</strong> o agente captura a tela, <em>olha</em> e devolve um juízo do que viu — não do código.</p>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">⚖️ Check Judgment</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t4-p1">Quando o "pronto" precisa de <strong class="text-blue-400">gosto</strong>, mas dá para descrever esse gosto, use o check <strong class="text-blue-400">Judgment</strong>: você escreve um checklist (uma <strong class="text-blue-400">rubrica</strong>) e um segundo agente pontua por ela. É o maker→checker da Trilha 2 aplicado à qualidade subjetiva.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "rubrica"</p>
+<p class="text-sm text-neutral-300">Uma <strong>rubrica</strong> é um checklist de pontuação: uma lista de critérios, cada um com uma faixa de pontos (ex.: "título claro: 0-3", "chamada de ação: 0-2"). Ela transforma "ficou bom?" em "somou quantos pontos?" — dando ao agente avaliador algo concreto para medir, em vez de opinião solta.</p>
+</aside>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-2 flex items-center"><span class="mr-2">⚠️</span> A armadilha: "até você ficar satisfeito"</h3>
+<p class="text-neutral-300 mb-2">"Itere até ficar bom" é <strong>subjetivo demais</strong> — o loop não tem como medir "satisfeito" e nunca para (ou para no lugar errado).</p>
+<p class="text-neutral-300"><strong class="text-emerald-400">O conserto:</strong> torne objetivo — "keep iterating until X metric = Y", por exemplo "itere até a nota média da rubrica ≥ 9". Agora há um número para o loop perseguir.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ Subjetivo demais</h4>
+<p class="text-sm text-neutral-300">"Refaça até ficar elegante." → sem métrica, o loop nunca sabe se chegou.</p>
+</div>
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-2">✓ Objetivado por rubrica</h4>
+<p class="text-sm text-neutral-300">"Pontue por esta rubrica (0-10) e itere até a média ≥ 9." → agora há um alvo.</p>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">🙋 Check You-decide</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t5-p1">Quando o passo é <strong class="text-blue-400">irreversível</strong> ou é puro gosto que nenhuma rubrica captura, use o check <strong class="text-blue-400">You-decide</strong>: o loop <strong class="text-blue-400">pausa</strong>, você aprova, e ele continua. É o check certo para passos arriscados — as "portas de mão única" (one-way doors), de onde não dá para voltar.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "porta de mão única"</p>
+<p class="text-sm text-neutral-300">Uma <strong>porta de mão única</strong> (one-way door) é uma ação que não dá para desfazer: deletar dados, enviar um e-mail, fazer um pagamento. Para essas, o You-decide é a regra de ouro — melhor o loop pausar e perguntar do que cruzar a porta errada.</p>
+</aside>
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">▶</span> Copy-run: o gate humano</h3>
+<p class="text-sm text-neutral-400 mb-3"><strong class="text-blue-400">Objetivo:</strong> instruir o loop a pausar e pedir aprovação antes de qualquer ação irreversível, em vez de agir por conta.</p>
+<div class="code-box mb-2">
+<pre><code># Cole junto com seu prompt no Claude Code — um gate humano para portas de mão única
+
+# a regra de pausa (You-decide)
+Pause e me pergunte ANTES de deletar, enviar ou pagar qualquer coisa.
+Para essas ações, não decida sozinho: descreva o que vai fazer, espere meu "ok",
+e só então execute.
+
+# o que NÃO precisa pausar
+Ler arquivos, rodar testes, editar código localmente e &lt;outras ações reversíveis&gt;
+você pode fazer direto, sem pedir.</code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-blue-400">Como verificar:</strong> dê ao agente uma tarefa que envolva uma ação arriscada (ex.: "limpe a pasta X"). Confirme que ele <em>para e pergunta</em> antes de deletar, em vez de apagar direto. Se pausou e esperou seu "ok", o gate está funcionando.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> You-decide é raro, mas crítico</h3>
+<p class="text-neutral-300">Use com parcimônia — pausar a cada passo mata o ganho do loop. Reserve para o que é irreversível ou para o gosto que nenhuma métrica captura. Para o resto, prefira Functional, Visual ou Judgment.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-2-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🎚️ Objetivo vs subjetivo</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-3-t6-p1">A regra-mãe deste módulo: <strong class="text-blue-400">quanto mais objetivo o "pronto", melhor o loop</strong>. Objetivo dá ao loop um número para perseguir e um momento claro de parar. Subjetivo deixa o loop perdido. Sempre que possível, empurre o "pronto" para o lado objetivo.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "objetivo × subjetivo"</p>
+<p class="text-sm text-neutral-300">Um critério <strong>objetivo</strong> é medido sem opinião ("nota ≥ 9", "0 testes falhando"). Um critério <strong>subjetivo</strong> depende de gosto ("ficou bonito o bastante"). O truque do bom loop é converter o subjetivo em objetivo — uma rubrica com nota, um cap de iterações — para que o loop tenha onde parar.</p>
+</aside>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🎬</span> Exemplo real: a foto Abbey Road em CSS (vídeo do Nate)</h3>
+<p class="text-neutral-300 mb-2">A tarefa: recriar a clássica foto de capa "Abbey Road" usando só CSS. O "pronto" foi travado de forma objetiva:</p>
+<ul class="space-y-1 text-neutral-300 text-sm mb-2">
+<li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">•</span><span>Parar quando a <strong>média de score ≥ 9</strong> (rubrica) <strong>OU</strong> após <strong>8 passes</strong> (cap duro).</span></li>
+<li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">•</span><span>Cada versão era <strong>screenshot + reavaliada</strong> (check Visual + Judgment combinados).</span></li>
+</ul>
+<p class="text-neutral-300 text-sm">Repare: nota e cap. O loop não roda "até ficar bom" — roda até 9 <em>ou</em> 8 passes. Esse cap duro é o freio que impede o loop de girar para sempre.</p>
+</div>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border border-dark-600 rounded-xl overflow-hidden">
+<thead class="bg-dark-700/50 text-left">
+<tr><th class="px-4 py-3 font-semibold text-red-400">"Pronto" subjetivo (ruim)</th><th class="px-4 py-3 font-semibold text-emerald-400">"Pronto" objetivo (bom)</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr><td class="px-4 py-3 text-neutral-300">"até ficar elegante"</td><td class="px-4 py-3 text-neutral-300">"até a média da rubrica ≥ 9 ou 8 passes"</td></tr>
+<tr><td class="px-4 py-3 text-neutral-300">"melhore o código"</td><td class="px-4 py-3 text-neutral-300">"até o lint e os testes passarem"</td></tr>
+<tr><td class="px-4 py-3 text-neutral-300">"resuma bem"</td><td class="px-4 py-3 text-neutral-300">"≤ 5 linhas e cobre os 3 pontos-chave"</td></tr>
+</tbody>
+</table>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-2-3#q1">
+<p class="font-medium mb-4">Qual destes é a melhor definição de "pronto" para um loop?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">"Itere até o thumbnail ficar bonito."</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">"Continue até a média de score ≥ 9 ou após 8 passes."</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">"Pare quando você sentir que está satisfeito."</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Trave a linha de chegada</strong><span class="text-neutral-400"> — o que "pronto" significa + como checar = a checagem do loop.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Functional</strong><span class="text-neutral-400"> — máquina decide sim/não (testes, build, app). O mais fácil; comece por ele.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Visual</strong><span class="text-neutral-400"> — precisa ser visto; o agente tira screenshot e julga o pixel.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Judgment</strong><span class="text-neutral-400"> — rubrica + 2º agente que pontua; objetive ("até a métrica = Y").</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">You-decide</strong><span class="text-neutral-400"> — irreversível/puro gosto: o loop pausa e você aprova. Gate humano.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Objetivo vs subjetivo</strong><span class="text-neutral-400"> — quanto mais objetivo, melhor; Abbey Road: score ≥ 9 ou 8 passes.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Próximo:</h3>
+<p class="text-neutral-300">Trilha 3 — Construindo seu primeiro loop (a sequência de 7 passos)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-2-2.html">← 2.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="../trilha3/index.html">Trilha 3 →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Loop Agentes v2 — Engenharia de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-2-3#q1',{answer:1,explain:{0:"Subjetivo demais — 'bonito' não dá métrica para o loop parar.",1:"Isso: nota objetiva (≥9) E um cap duro (8 passes). O loop sabe quando parar.",2:"'Satisfeito' é subjetivo e nem cabe num loop automático — não há como medir."}});}});</script>
+</body>
+</html>

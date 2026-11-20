@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>3.3 8 ingredientes de um loop sólido | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .bg-sky-500\/10 { background-color: rgba(3,105,161,0.08); }
+    html:not(.dark) .border-sky-500\/30 { border-color: rgba(3,105,161,0.25); }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
+      .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; }
+    }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha3/modulo-3-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha3/modulo-3-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha3/modulo-3-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-3-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha3/modulo-3-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha3/modulo-3-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-purple-400 focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Quando usar</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Prática</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../../curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Loop Engineering</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Minha jornada</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Alternar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Início</a><span>/</span>
+<a class="hover:text-purple-400" href="index.html">Trilha 3</a><span>/</span>
+<span class="text-purple-400">Módulo 3.3</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧰 8 ingredientes de um loop sólido</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Você já rodou seu primeiro loop. Agora a checklist: oito peças que separam um loop que converge de um que dá voltas. Marque cada uma antes de soltar um agente sozinho.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">8</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">~45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Prática</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Checklist</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Progresso do módulo 3.3" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:3-3" role="progressbar">
+<span class="text-sm text-neutral-400">Progresso:</span>
+<span class="inema-meter-pct text-purple-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 de 8</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Índice da página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-1">1. Objetivo checável</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-2">2. Hard stop</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-3">3. Boas ferramentas</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-4">4. Memória</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-5">5. Um checker separado</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-6">6. Planejar primeiro?</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-7">7. Logging</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-8">8. Cost sense</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-12">
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<img alt="Oito ferramentas luminosas dispostas como um kit — alvo, freio, chave, cristal de memória, balança, mapa, caderno e moeda" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t3-toolkit.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">O que ver:</strong> oito ferramentas que, juntas, fazem um loop confiável. Não é uma de cada vez — é o kit montado. Cada seção abaixo é uma peça; um loop sólido tem todas encaixadas.</p>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">🎯 Objetivo checável</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t1-p1">O ingrediente número um: defina "pronto" de um jeito que uma <strong class="text-purple-400">máquina</strong> consiga verificar — não "deixe bom". Se o próprio loop não tem como olhar o resultado e responder sim/não, ele nunca sabe quando parar.</p>
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Oito blocos rotulados se conectam num único kit de loop: objetivo, hard stop, ferramentas, memória, checker, plano, log e custo" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m33a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#a855f7"></stop></lineargradient>
+<filter height="180%" id="m33a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m33a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#a855f7" opacity="0.12" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m33a-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<g class="wf-a"><rect fill="#1a1230" height="40" rx="10" stroke="#c084fc" stroke-width="2" width="200" x="40" y="30"></rect><text fill="#e9d5ff" text-anchor="middle" x="140" y="55">🎯 objetivo checável</text></g>
+<g class="wf-a"><rect fill="#1a1230" height="40" rx="10" stroke="#c084fc" stroke-width="2" width="200" x="270" y="30"></rect><text fill="#e9d5ff" text-anchor="middle" x="370" y="55">🛑 hard stop</text></g>
+<g class="wf-a"><rect fill="#1a1230" height="40" rx="10" stroke="#c084fc" stroke-width="2" width="200" x="500" y="30"></rect><text fill="#e9d5ff" text-anchor="middle" x="600" y="55">🔧 ferramentas</text></g>
+<g class="wf-a"><rect fill="#1a1230" height="40" rx="10" stroke="#c084fc" stroke-width="2" width="200" x="730" y="30"></rect><text fill="#e9d5ff" text-anchor="middle" x="830" y="55">🧠 memória</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="200" x="40" y="160"></rect><text fill="#bfe6ff" text-anchor="middle" x="140" y="185">✅ checker</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="200" x="270" y="160"></rect><text fill="#bfe6ff" text-anchor="middle" x="370" y="185">🗺️ plano</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="200" x="500" y="160"></rect><text fill="#bfe6ff" text-anchor="middle" x="600" y="185">🧾 logging</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="200" x="730" y="160"></rect><text fill="#bfe6ff" text-anchor="middle" x="830" y="185">💸 custo</text></g>
+</g>
+<g filter="url(#m33a-glow)"><rect fill="#1a1230" height="30" rx="9" stroke="url(#m33a-grad)" stroke-width="2.5" width="230" x="385" y="100"></rect></g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="500" y="120">UM LOOP CONFIÁVEL</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">Leia o diagrama:</strong> as oito peças não competem — elas se somam num loop só. Faltando uma das oito, o loop fica frágil exatamente naquele ponto.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h4 class="font-bold text-purple-400 mb-4">✓ Checável por máquina</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>"Todo teste em /tests passa ao rodar <code>npm test</code>."</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>"Abaixo de 50 palavras E menciona o preço."</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>"O script roda sem erro e gera o CSV."</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Só você sabe avaliar</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Deixe bom."</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Melhore o texto."</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Limpe isso aqui."</span></li>
+</ul>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">🛑 Hard stop</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t2-p1">Todo loop precisa de uma <strong class="text-purple-400">parada dura</strong>: máximo de tentativas, orçamento de tokens ou tempo. Sempre. É o que impede o agente de rodar para sempre quando não consegue atingir o objetivo.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "max_turns"</p>
+<p class="text-sm text-neutral-300"><strong>max_turns</strong> é o teto de voltas que o agente pode dar antes de parar à força. Os SDKs de agente (OpenAI, Google, Bedrock) já trazem esse parâmetro pronto. Pense nele como o disjuntor do loop: o objetivo manda parar quando dá certo; o max_turns manda parar quando não dá.</p>
+</aside>
+<div class="code-box mb-2">
+<pre><code># Três sabores de hard stop — escolha o que cabe na sua tarefa
+
+Pare quando todos os testes passarem, OU após 10 tentativas.   # máx. tentativas
+Pare quando o objetivo for atingido, OU após gastar 50k tokens. # orçamento
+Pare quando terminar, OU após 15 minutos de execução.          # tempo</code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> leia seu prompt e ache a palavra "ou". Se não houver um teto além do objetivo, o loop não tem freio — adicione um antes de rodar.</p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧠</span> Por que "sempre"</h3>
+<p class="text-neutral-300">Um loop sem parada é a fonte número um de surpresas: ou ele fica preso repetindo a mesma correção, ou queima uma conta de tokens enquanto você dorme. O hard stop é barato de escrever e caro de esquecer.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">🔧 Boas ferramentas</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t3-p1">As ações que o agente pode tomar precisam ser <strong class="text-purple-400">confiáveis</strong> e <strong class="text-purple-400">claramente descritas</strong>. Uma ferramenta que falha silenciosamente, ou cujo nome não diz o que ela faz, vira ruído que confunde o loop.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> O artesanato está nas ferramentas</h3>
+<p class="text-neutral-300">A Anthropic é direta: "é crucial projetar conjuntos de ferramentas e sua documentação com clareza". O loop em si é trivial — o trabalho de verdade está em <em>quais</em> ferramentas o agente tem e <em>quão bem descritas</em> elas estão.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h4 class="font-bold text-purple-400 mb-4">✓ Ferramenta boa</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Nome diz o que faz: <code>rodar_testes</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Devolve o resultado real (saída, código de erro).</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Falha de um jeito que o agente entende.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Ferramenta ruim</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nome vago: <code>processar</code>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sucesso e falha parecem iguais.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Faz coisas demais de uma vez só.</span></li>
+</ul>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">🧠 Memória</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t4-p1">Guarde o histórico do que já foi tentado — mas <strong class="text-purple-400">resuma</strong>, não acumule tudo. Um arquivo de notas curto que o agente relê é melhor que despejar cada passo de volta no contexto, que incha e fica caro.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "contexto" e "context window"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Contexto</strong> é tudo que o modelo "tem na cabeça" naquela volta: seu pedido, o histórico e os últimos resultados.</p>
+<p class="text-sm text-neutral-300"><strong>Context window</strong> é o tamanho máximo desse "na cabeça" — cabe só tanto. Por isso a memória precisa ser resumida: o que não cabe, ou some, ou empurra outra coisa para fora.</p>
+</aside>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧩</span> Resumir &gt; acumular</h3>
+<p class="text-neutral-300">Um bom padrão: o agente mantém um <code>PROGRESS.md</code> com 3–5 linhas — o que já funciona, o que ainda falta, o que NÃO repetir. A cada volta ele relê esse resumo em vez do log inteiro. Memória que cabe num parágrafo sobrevive entre sessões; um histórico gigante não.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">✅ Um checker separado</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t5-p1">Separe quem faz de quem julga: <strong class="text-purple-400">gerar → julgar → consertar → repetir</strong>. O agente que produz o trabalho nunca deve dar a própria nota — um avaliador independente é muito mais honesto.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "maker" e "checker"</p>
+<p class="text-sm text-neutral-300"><strong>Maker</strong> é o agente que faz a tarefa; <strong>checker</strong> é o que confere se ficou bom. Quando são o mesmo, o agente tende a se auto-aprovar ("ficou ótimo!"). Quando são separados, o checker pega o que o maker não quis ver.</p>
+</aside>
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="O maker gera, o checker julga; se reprovou, volta para o maker consertar; se passou, está pronto" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m33b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c084fc"></stop><stop offset="1" stop-color="#a855f7"></stop></lineargradient>
+<filter height="180%" id="m33b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m33b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#a855f7" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m33b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"></path></marker>
+</defs>
+<rect fill="url(#m33b-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g filter="url(#m33b-glow)"><rect fill="#1a1230" height="60" rx="14" stroke="url(#m33b-grad)" stroke-width="2.5" width="190" x="60" y="80"></rect></g>
+<text fill="#c084fc" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="155" y="108">MAKER</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="155" y="127">gera o trabalho</text>
+<g font-family="Inter,sans-serif" font-size="15" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="60" rx="14" stroke="#38bdf8" stroke-width="2" width="190" x="410" y="80"></rect><text fill="#bfe6ff" text-anchor="middle" x="505" y="108">CHECKER</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="505" y="127">julga: passa?</text></g>
+</g>
+<rect fill="#1f2937" height="60" rx="14" stroke="#9ca3af" stroke-width="2" width="180" x="760" y="80"></rect>
+<text fill="#e5e7eb" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="850" y="115">pronto ✓</text>
+<g fill="none" opacity="0.8" stroke="#c084fc" stroke-width="2">
+<path class="wf-flow" d="M250,110 L408,110" marker-end="url(#m33b-ah)"></path>
+<path class="wf-flow" d="M600,110 L758,110" marker-end="url(#m33b-ah)"></path>
+</g>
+<path d="M505,140 C505,195 155,195 155,142" fill="none" marker-end="url(#m33b-ah)" opacity="0.6" stroke="#a855f7" stroke-dasharray="6 6" stroke-width="2"></path>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="330" y="188">reprovou? volta para o maker consertar</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">Leia o diagrama:</strong> o maker gera, o checker julga. Reprovou, volta para consertar; passou, está pronto. Como são papéis separados, o "passou" significa algo de verdade.</p>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-3-3#q1">
+<p class="font-medium mb-4">Por que o maker não deve dar a própria nota?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Porque julgar gasta tokens e é melhor pular essa etapa.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Porque quem fez tende a se auto-aprovar; um juiz separado é mais honesto.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Porque o maker não é capaz de avaliar nada, só de gerar.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🗺️ Planejar primeiro?</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t6-p1">Nem todo loop precisa de plano. Para um job <strong class="text-purple-400">grande e multi-passo</strong>, peça um plano antes de agir — assim o agente não se perde no meio. Para um job <strong class="text-purple-400">pequeno</strong>, pule o plano: ele só atrasa.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h4 class="font-bold text-purple-400 mb-4">✓ Planeje primeiro quando…</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>A tarefa tem muitos passos dependentes.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Errar no começo custa caro lá na frente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Você quer revisar o caminho antes do agente agir.</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-bold text-neutral-300 mb-4">↩ Pule o plano quando…</h4>
+<ul class="space-y-3 text-neutral-400 text-sm">
+<li class="flex items-start space-x-2"><span class="text-neutral-500">·</span><span>É uma correção pequena e direta.</span></li>
+<li class="flex items-start space-x-2"><span class="text-neutral-500">·</span><span>O caminho é óbvio: rodar → ler → consertar.</span></li>
+<li class="flex items-start space-x-2"><span class="text-neutral-500">·</span><span>Planejar gastaria mais que só fazer.</span></li>
+</ul>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">7</span>
+<h2 class="text-2xl font-bold">🧾 Logging</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t7-p1">Salve cada <strong class="text-purple-400">pensamento, ação e resultado</strong> do loop. Quando algo der errado — e vai dar — o log é o que te deixa entender o que aconteceu, mesmo às 3 da manhã, sem ter assistido tudo ao vivo.</p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🔍</span> O log é sua câmera de segurança</h3>
+<p class="text-neutral-300">Sem log, um loop que falhou é uma caixa-preta: você só vê o resultado quebrado, não o caminho até ele. Com log, você lê a sequência de decisões, acha onde virou errado e conserta a <em>instrução</em> — não a saída.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-1">💭</div><p class="text-xs text-neutral-400">o que pensou</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-1">⚙️</div><p class="text-xs text-neutral-400">o que fez</p></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-1">📤</div><p class="text-xs text-neutral-400">o que deu</p></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-3-3#topico-8" id="topico-8">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">8</span>
+<h2 class="text-2xl font-bold">💸 Cost sense</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-3-t8-p1">Loops queimam <strong class="text-purple-400">tokens rápido</strong> — cada volta é uma chamada nova ao modelo. Comece pequeno e limitado: tarefa curta, poucas tentativas. Só depois que funciona, escale o escopo e o teto.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧩</span> Pequeno primeiro, sempre</h3>
+<p class="text-neutral-300">A intuição de custo importa porque o preço sobe de forma invisível: 10 voltas × contexto grande × modelo caro vira uma conta surpresa. Rode primeiro com max_turns baixo e tarefa pequena; veja quanto custou uma volta; e aí decida se vale escalar.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🚦</span> Faça isto / Pule isto (por enquanto)</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h3 class="font-bold text-purple-400 mb-4 flex items-center"><span class="mr-2">✓</span> Faça</h3>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400 mt-0.5">✓</span><span>Comece com <strong>1 tarefa pequena e repetível</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400 mt-0.5">✓</span><span>Faça "pronto" <strong>checável por máquina</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400 mt-0.5">✓</span><span>Sempre ponha um <strong>máximo de tentativas</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400 mt-0.5">✓</span><span>Use um <strong>2º agente para avaliar</strong> trabalho importante.</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h3 class="font-bold text-red-400 mb-4 flex items-center"><span class="mr-2">✗</span> Pule por enquanto</h3>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span>Swarms 24/7 de <strong>10 agentes promptando 10</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span>Rodar <strong>sem condição de parada</strong>.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span>Confiar em <strong>"parece pronto"</strong> sem check real.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">✗</span><span>Pôr em loop uma <strong>tarefa de uma vez só</strong>.</span></li>
+</ul>
+</div>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Objetivo checável</strong><span class="text-neutral-400"> — "pronto" que uma máquina verifica, não "deixe bom".</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Hard stop</strong><span class="text-neutral-400"> — máx. tentativas, orçamento ou tempo. Sempre.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Boas ferramentas</strong><span class="text-neutral-400"> — ações confiáveis e claramente descritas.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Memória</strong><span class="text-neutral-400"> — guarde o histórico, mas resuma para o contexto não inchar.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Um checker separado</strong><span class="text-neutral-400"> — gerar → julgar → consertar → repetir; o maker não se auto-aprova.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Planejar primeiro?</strong><span class="text-neutral-400"> — job grande pede plano; job pequeno pula.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Logging</strong><span class="text-neutral-400"> — salve cada pensamento, ação e resultado para debugar depois.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Cost sense</strong><span class="text-neutral-400"> — loops queimam tokens; comece pequeno e limitado, depois escale.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Próximo:</h3>
+<p class="text-neutral-300">3.4 — Os 8 erros comuns</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Voltar para Trilha</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-4.html">3.4 →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Loop Agentes v2 — Engenharia de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-3-3#q1',{answer:1,explain:{0:"Não — julgar é justamente o que garante qualidade; pular é o erro.",1:"Isso: quem fez tende a se auto-aprovar; um juiz separado pega o que o maker não quis ver.",2:"O maker até avalia — o problema é o viés de aprovar o próprio trabalho, não falta de capacidade."}});}});</script>
+</body>
+</html>

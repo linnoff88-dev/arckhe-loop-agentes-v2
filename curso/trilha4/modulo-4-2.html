@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>4.2 Padrões avançados | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(146,64,14,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(146,64,14,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(146,64,14,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .bg-sky-500\/10 { background-color: rgba(3,105,161,0.08); }
+    html:not(.dark) .border-sky-500\/30 { border-color: rgba(3,105,161,0.25); }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) { .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; } }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha4/modulo-4-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha4/modulo-4-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha4/modulo-4-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-4-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha4/modulo-4-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha4/modulo-4-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-amber-400 focus:rounded-lg" href="#conteudo">Pular para o conteúdo</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Quando usar</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Prática</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Loop Engineering</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Minha jornada</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Alternar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Início</a><span>/</span>
+<a class="hover:text-amber-400" href="index.html">Trilha 4</a><span>/</span>
+<span class="text-amber-400">Módulo 4.2</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧱 Padrões avançados</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">O kit de padrões do nível avançado: o Ralph loop, loops agendados em frota, isolamento por worktree e sandbox, guardrails como o trabalho de verdade, verificação adversarial, fan-out multi-agente e memória entre tentativas. Cada um com a fonte e como/quando usar.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">7</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">~55</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Avançado</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Padrões</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Progresso do módulo 4.2" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:4-2" role="progressbar">
+<span class="text-sm text-neutral-400">Progresso:</span>
+<span class="inema-meter-pct text-amber-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 de 7</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Índice da página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Seção <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">7</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-1">1. Ralph loop</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-2">2. Loops agendados</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-3">3. Worktrees &amp; sandboxes</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-4">4. Guardrails</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-5">5. Maker/checker adversarial</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-6">6. Fan-out / orquestração</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-7">7. Cross-trial memory</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">🐚 Ralph loop</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t1-p1">O padrão mais bruto e mais famoso da casa: o <strong class="text-amber-400">Ralph loop</strong> (Geoffrey Huntley / HumanLayer). É um loop de shell infinito que repete o MESMO prompt sem parar. Cada volta muta o código — e esse código mutado vira o estado inicial da próxima volta.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "Ralph loop"</p>
+<p class="text-sm text-neutral-300"><strong>Ralph loop</strong> é a técnica de rodar o mesmo prompt num laço de terminal infinito, deixando o agente reabrir a tarefa do zero a cada volta. Como o código muda a cada iteração, o agente nunca vê duas vezes o mesmo ponto de partida — ele "escala" o problema sozinho, repetição após repetição. O nome é uma piada interna; a técnica é real e surpreendentemente eficaz para certos trabalhos.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="Um laço de shell luminoso que se fecha sobre si mesmo, com o mesmo prompt entrando e o código saindo mutado a cada volta" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t4-ralph.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">O que ver:</strong> o mesmo prompt entra em todas as voltas (a seta não muda); o que muda é o código no meio, que carrega o progresso para a próxima iteração. É o estado externalizado da 4.1 levado ao extremo.</p>
+</div>
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 mb-3">
+<p class="text-sm text-amber-400 font-semibold mb-1">Objetivo do código abaixo</p>
+<p class="text-sm text-neutral-300">Rodar o mesmo prompt num laço infinito de shell, deixando o agente avançar a tarefa a cada volta — sem você re-digitar nada.</p>
+</div>
+<div class="code-box mb-3">
+<pre><code># O Ralph one-liner — cole no seu terminal, na raiz do projeto
+# PROMPT.md contém a tarefa; troque o agente pela ferramenta que você usa.
+
+while :; do cat PROMPT.md | npx --yes @sourcegraph/amp ; done</code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">Como verificar / quando usar:</strong> rode num repositório descartável (de preferência num worktree isolado — tópico 3) com um <code>git status</code> aberto noutra aba: você verá commits/mudanças surgindo a cada volta. Use para tarefas grandes e repetitivas com verificação embutida; <strong>pare cedo</strong> — Huntley alerta que rodar demais produz "bizarre emergent behavior". O loop infinito é poderoso e perigoso na mesma medida: combine SEMPRE com guardrails (tópico 4).</p>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">⏰ Loops agendados</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t2-p1">Owain Lewis (relatado) descreve a forma "frota": <strong class="text-amber-400">um loop é um job que o agente repete</strong> — acorda num agendamento ou evento, lê o estado do trabalho, faz UM job escopado dentro de permissões fixas, escreve o resultado, dorme, e repete. É o oposto do Ralph: disciplinado, pequeno, controlado.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="Uma frota de pequenos agentes operando lado a lado num painel, cada um com sua faixa de trabalho, rodando o dia inteiro" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t4-fleet.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">O que ver:</strong> não é um agente gênio fazendo tudo — é uma frota de agentes pequenos, cada um com um job estreito e permissões fixas. A coordenação é externa (o control plane), não está na cabeça de nenhum agente.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-bold text-amber-400 mb-2">🗂️ Manager (split)</h4>
+<p class="text-sm text-neutral-300">Classifica o backlog: separa o que é fácil e de baixo risco do que precisa de humano. Não escreve código — só roteia trabalho.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+<h4 class="font-bold text-amber-400 mb-2">🔧 Worker</h4>
+<p class="text-sm text-neutral-300">Implementa os tickets de baixo risco e abre PRs. Nunca dá merge. O humano aprova no fim — a porta final fica com a gente.</p>
+</div>
+</div>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Control plane de Issues distribui tickets; o manager classifica; o worker implementa e abre PR; o humano aprova o merge" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m42b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m42b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m42b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m42b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m42b-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m42b-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g filter="url(#m42b-glow)"><rect fill="#1f1604" height="56" rx="13" stroke="url(#m42b-grad)" stroke-width="2.5" width="170" x="40" y="86"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="125" y="108">CONTROL PLANE</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="10.5" text-anchor="middle" x="125" y="126">GitHub Issues</text>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="150" x="290" y="40"></rect><text fill="#bfe6ff" text-anchor="middle" x="365" y="63">manager</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="365" y="79">classifica</text>
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="150" x="290" y="138"></rect><text fill="#bfe6ff" text-anchor="middle" x="365" y="161">worker</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="365" y="177">implementa</text>
+<rect fill="#0e2018" height="50" rx="12" stroke="#34d399" stroke-width="2" width="150" x="540" y="138"></rect><text fill="#bbf7d0" text-anchor="middle" x="615" y="161">abre PR</text><text fill="#86efac" font-size="10" font-weight="400" text-anchor="middle" x="615" y="177">nunca dá merge</text>
+<rect fill="#1f1604" height="50" rx="12" stroke="#fbbf24" stroke-width="2" width="170" x="790" y="138"></rect><text fill="#fde68a" text-anchor="middle" x="875" y="161">humano aprova</text><text fill="#fcd34d" font-size="10" font-weight="400" text-anchor="middle" x="875" y="177">o merge</text>
+</g>
+<path d="M210,104 C250,90 260,70 288,66" fill="none" marker-end="url(#m42b-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M365,90 L365,136" fill="none" marker-end="url(#m42b-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M440,163 L538,163" fill="none" marker-end="url(#m42b-ahg)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M690,163 L788,163" fill="none" marker-end="url(#m42b-ahg)" stroke="#34d399" stroke-width="2"></path>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Leia o fluxo:</strong> as Issues do GitHub são o control plane — a fila de trabalho compartilhada. O manager classifica, o worker implementa e abre PR, e a última porta (o merge) é sempre humana. Nenhum agente fecha o ciclo sozinho.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">🌲 Worktrees, sandboxes e permissões fixas</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t3-p1">Para rodar vários agentes em paralelo sem que eles pisem uns nos outros — e sem que algum faça algo irreversível — você precisa de <strong class="text-amber-400">isolamento</strong>. Três peças: worktrees, sandboxes e permissões fixas.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "worktree" e "sandbox"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Worktree</strong> (git worktree) é uma cópia de trabalho separada do mesmo repositório, em outra pasta e outro branch. Dois agentes em dois worktrees mexem no mesmo projeto sem colidir — cada um na sua árvore.</p>
+<p class="text-sm text-neutral-300"><strong>Sandbox</strong> é um ambiente fechado (container, VM, máquina descartável) onde o agente roda isolado do seu sistema real: ele pode quebrar tudo lá dentro sem tocar no que importa fora.</p>
+</aside>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-amber-400 mb-1 text-sm">🌲 Worktree</h4><p class="text-xs text-neutral-400">Isola o trabalho paralelo: cada agente na sua árvore/branch, sem conflito de arquivos.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-amber-400 mb-1 text-sm">📦 Sandbox</h4><p class="text-xs text-neutral-400">Isola o ambiente: o agente roda num lugar onde estragar não custa nada de fora.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-amber-400 mb-1 text-sm">🔒 Permissões fixas</h4><p class="text-xs text-neutral-400">Definem o que ele PODE fazer: é assim que você deixa um loop rodar sem fazer algo irreversível.</p></div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> A ideia central das permissões fixas</h3>
+<p class="text-neutral-300">Permissões fixas são o cinto de segurança do loop autônomo. Você decide ANTES o que o agente pode tocar (esses arquivos, esses comandos) e o que é proibido (prod, segredos, <code>git push --force</code>). Como ninguém está olhando a cada volta, o limite tem que estar no ambiente, não na sua atenção.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">🛡️ Guardrails = o trabalho de verdade</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t4-p1">O consenso grassroots da comunidade é direto: <strong class="text-amber-400">"os guardrails são o trabalho de verdade, não os agentes."</strong> O agente é a parte fácil. O difícil — e o que separa um sistema seguro de um desastre — é desenhar os limites. O worker abre PR, mas nunca dá merge; um humano aprova.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "guardrails"</p>
+<p class="text-sm text-neutral-300"><strong>Guardrails</strong> (grades de proteção) são as regras e limites que cercam o que um agente pode fazer: o que ele NÃO pode tocar, onde precisa parar e pedir aprovação, e qual é a porta final que só um humano abre. Não é o que o agente faz — é o contorno seguro dentro do qual ele faz.</p>
+</aside>
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 mb-3">
+<p class="text-sm text-amber-400 font-semibold mb-1">Objetivo do prompt abaixo</p>
+<p class="text-sm text-neutral-300">Dar ao agente da frota um contrato de permissões explícito — o que ele pode, o que é proibido, e onde tem que parar e pedir aprovação humana.</p>
+</div>
+<div class="code-box mb-3">
+<pre><code># Cole no topo do PROMPT.md do seu worker (ajuste os nomes ao seu repo)
+
+REGRAS (não negociáveis):
+- Trabalhe APENAS nos arquivos sob <src e="" features="" tests=""></src>.
+- Abra um Pull Request ao terminar. NUNCA dê merge você mesmo.
+- NUNCA toque em produção, em segredos (.env, chaves) nem em CI/CD.
+- PROIBIDO: git push --force, deletar branches, alterar o histórico.
+- PARE e peça aprovação humana antes de: <migrar banco="" dados="" de="">,
+  <instalar dependência="" nova=""> ou <mudar api="" contratos="" de="" públicos="">.
+- Se a verificação falhar 3 vezes, pare e escreva o que travou em BLOCKED.md.</mudar></instalar></migrar></code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">Como verificar:</strong> rode o worker num worktree de teste e confira o resultado contra cada linha — abriu PR sem merge? não tocou em <code>.env</code>? parou quando bateu numa migração? Se alguma regra foi violada, o guardrail está fraco demais e o prompt precisa ser mais específico. O guardrail só é real quando você o testa contra um agente tentando contorná-lo.</p>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">🥊 Maker/checker adversarial &amp; verification specialist</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t5-p1">Você viu o Maker→Checker na Trilha 2. Aqui ele sobe de nível: o checker fica <strong class="text-amber-400">adversarial</strong>. Em vez de só conferir, um segundo agente (ou painel) tenta QUEBRAR o trabalho — é prompted para refutar, achar o buraco, provar que está errado.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "verification specialist"</p>
+<p class="text-sm text-neutral-300"><strong>Verification specialist</strong> seria um subagente cujo único papel é verificar — não fazer. Ele recebe o trabalho pronto e a missão de tentar reprová-lo. A vantagem da separação: quem faz tende a ser leniente consigo; quem só verifica não tem ego no resultado.</p>
+</aside>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-2 flex items-center"><span class="mr-2">🚨</span> Cuidado com a fonte: especulação, não fato</h3>
+<p class="text-neutral-300 mb-2">Hesamation leu o system prompt do Claude Code e interpretou que ele introduziria um subagente "verification specialist" — mas ele MESMO marcou isso como <strong>inferência especulativa, possivelmente inativa</strong>.</p>
+<p class="text-neutral-300">Trate o "verification specialist" como uma <em>ideia útil de design</em>, não como um recurso confirmado de nenhuma ferramenta. O padrão (separar quem faz de quem refuta) é sólido; a alegação específica sobre o system prompt é especulação.</p>
+</div>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="O maker produz; o checker adversarial tenta refutar; se refutou, volta ao maker; se não conseguiu quebrar, aprova" class="w-full h-auto" role="img" viewbox="0 0 1000 210">
+<defs>
+<lineargradient id="m42c-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m42c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m42c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m42c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m42c-ahr" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#f87171"></path></marker>
+<marker id="m42c-ahg" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m42c-grid)" height="210" width="1000" x="0" y="0"></rect>
+<g filter="url(#m42c-glow)"><rect fill="#1f1604" height="56" rx="13" stroke="url(#m42c-grad)" stroke-width="2.5" width="200" x="60" y="78"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="160" y="102">MAKER</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="160" y="121">produz o trabalho</text>
+<rect fill="#0e1b26" height="56" rx="13" stroke="#38bdf8" stroke-width="2" width="220" x="440" y="78"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="550" y="102">CHECKER adversarial</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="550" y="121">tenta QUEBRAR / refutar</text>
+<rect fill="#0e2018" height="56" rx="13" stroke="#34d399" stroke-width="2" width="140" x="830" y="78"></rect><text fill="#bbf7d0" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="900" y="102">APROVA</text><text fill="#86efac" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="900" y="121">não conseguiu</text>
+<path class="wf-flow" d="M260,106 L438,106" fill="none" marker-end="url(#m42c-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M660,106 L828,106" fill="none" marker-end="url(#m42c-ahg)" stroke="#34d399" stroke-width="2"></path>
+<path d="M550,134 C550,184 160,184 160,136" fill="none" marker-end="url(#m42c-ahr)" opacity="0.75" stroke="#f87171" stroke-dasharray="6 6" stroke-width="2"></path>
+<text fill="#f87171" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="360" y="178">refutou? volta para o maker corrigir</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">A diferença adversarial:</strong> o checker não pergunta "está bom?", ele pergunta "como provo que está errado?". Só aprova quando NÃO consegue quebrar. Quem faz nunca dá a própria nota — é a regra de ouro da verificação levada ao ataque.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🕸️ Multi-agente / fan-out / orquestração</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t6-p1">A frota cresce: um manager promptando agentes que promptam agentes — "Russian nesting dolls" (bonecas russas), aninhamento dentro de aninhamento. O padrão que organiza tudo é uma sequência: <strong class="text-amber-400">orquestrar → delegar (fan-out) → verificar</strong>.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "fan-out" e "orquestração"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Fan-out</strong> é abrir um trabalho em vários ramos paralelos: um agente recebe a tarefa, a quebra em N pedaços e dispara N agentes ao mesmo tempo (1 → N).</p>
+<p class="text-sm text-neutral-300"><strong>Orquestração</strong> é a coordenação disso: um agente "maestro" decide quem faz o quê, junta os resultados de volta (N → 1) e verifica antes de seguir.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Um orquestrador faz fan-out para N agentes em paralelo, que devolvem para um verificador único: A para N para 1" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m42d-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m42d-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m42d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m42d-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m42d-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m42d-grid)" height="250" width="1000" x="0" y="0"></rect>
+<g filter="url(#m42d-glow)"><rect fill="#1f1604" height="58" rx="14" stroke="url(#m42d-grad)" stroke-width="2.5" width="170" x="40" y="96"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="125" y="120">ORQUESTRADOR</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="10.5" text-anchor="middle" x="125" y="138">delega (A)</text>
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="42" rx="10" stroke="#38bdf8" stroke-width="2" width="160" x="400" y="28"></rect><text fill="#bfe6ff" text-anchor="middle" x="480" y="54">agente 1</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="42" rx="10" stroke="#38bdf8" stroke-width="2" width="160" x="400" y="104"></rect><text fill="#bfe6ff" text-anchor="middle" x="480" y="130">agente 2</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="42" rx="10" stroke="#38bdf8" stroke-width="2" width="160" x="400" y="180"></rect><text fill="#bfe6ff" text-anchor="middle" x="480" y="206">agente N</text></g>
+</g>
+<g fill="none" opacity="0.8" stroke="#fbbf24" stroke-width="2">
+<path d="M210,118 C300,90 320,58 398,50" marker-end="url(#m42d-ah)"></path>
+<path d="M210,125 L398,125" marker-end="url(#m42d-ah)"></path>
+<path d="M210,132 C300,160 320,194 398,201" marker-end="url(#m42d-ah)"></path>
+</g>
+<g filter="url(#m42d-glow)"><rect fill="#0e2018" height="58" rx="14" stroke="#34d399" stroke-width="2.5" width="200" x="760" y="96"></rect></g>
+<text fill="#bbf7d0" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="860" y="120">VERIFICA (1)</text>
+<text fill="#86efac" font-family="Inter,sans-serif" font-size="10.5" text-anchor="middle" x="860" y="138">junta N → 1</text>
+<g fill="none" opacity="0.75" stroke="#38bdf8" stroke-width="2">
+<path d="M560,50 C650,58 670,90 758,118" marker-end="url(#m42d-ahc)"></path>
+<path d="M560,125 L758,125" marker-end="url(#m42d-ahc)"></path>
+<path d="M560,201 C650,194 670,160 758,132" marker-end="url(#m42d-ahc)"></path>
+</g>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Leia o fan-out:</strong> A (um orquestrador) → N (vários agentes em paralelo) → 1 (um verificador que junta tudo). O paralelismo dá velocidade; a verificação no fim impede que N erros independentes virem um produto bonito e quebrado.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-2#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">7</span>
+<h2 class="text-2xl font-bold">🧠 Cross-trial memory (Reflexion)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t7-p1">O último padrão muda a unidade do loop: em vez de uma volta, um <em>episódio</em> inteiro. A <strong class="text-amber-400">cross-trial memory</strong> (memória entre tentativas, do paper Reflexion) faz o loop atravessar tentativas: agir → receber feedback → refletir em texto → guardar na memória episódica → tentar melhor na próxima.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "cross-trial memory"</p>
+<p class="text-sm text-neutral-300"><strong>Cross-trial memory</strong> = memória que atravessa tentativas ("trials"). Depois de falhar, o agente escreve em linguagem o que aprendeu ("da próxima vez, cheque X antes de Y") e guarda isso. Na tentativa seguinte, ele lê essa nota e melhora — <em>aprende por linguagem, não por re-treino</em> do modelo. O peso do modelo não muda; o que muda é a nota que ele carrega.</p>
+</aside>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border border-dark-600 rounded-xl overflow-hidden">
+<thead class="bg-dark-700/60 text-neutral-300">
+<tr><th class="text-left p-3 font-semibold">Passo</th><th class="text-left p-3 font-semibold">O que acontece</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="p-3 font-medium text-amber-400">1. Agir</td><td class="p-3">o agente tenta resolver a tarefa (a "trial")</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">2. Feedback</td><td class="p-3">recebe um sinal de sucesso/falha (testes, avaliador, ambiente)</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">3. Refletir</td><td class="p-3">escreve em texto por que falhou e o que faria diferente</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">4. Guardar</td><td class="p-3">salva essa reflexão na memória episódica</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">5. Tentar de novo</td><td class="p-3">lê a memória e faz uma tentativa melhor — sem re-treinar nada</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🔗</span> Onde isso te leva</h3>
+<p class="text-neutral-300">Reflexion é a versão "aprende com o erro" do loop. Combine com os outros padrões: um worker numa frota que GUARDA o que aprendeu fica melhor a cada ticket — sem você ajustar nada. É também a raiz da ideia de "comprehension debt" da 4.3: quanto mais o sistema aprende sozinho, menos você entende por que ele faz o que faz.</p>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-2#q1">
+<p class="font-medium mb-4">No padrão de frota agendada, quem dá o merge do PR?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">O próprio worker, assim que abre o PR — é mais rápido.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Um humano — o worker abre o PR mas nunca dá merge.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">O manager, depois de classificar o backlog.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Ralph loop</strong><span class="text-neutral-400"> — shell infinito com o mesmo prompt; potente e perigoso, pare cedo.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Loops agendados</strong><span class="text-neutral-400"> — frota disciplinada: manager + worker, control plane de Issues, humano aprova.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Worktrees &amp; sandboxes</strong><span class="text-neutral-400"> — isolar trabalho e ambiente; permissões fixas evitam o irreversível.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Guardrails</strong><span class="text-neutral-400"> — o trabalho de verdade; PR sem merge, humano na porta final.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Maker/checker adversarial</strong><span class="text-neutral-400"> — checker que tenta quebrar; "verification specialist" é especulação útil, não fato.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Fan-out / orquestração</strong><span class="text-neutral-400"> — orquestrar → delegar (A→N) → verificar (N→1).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Cross-trial memory</strong><span class="text-neutral-400"> — Reflexion: aprende por linguagem entre tentativas, sem re-treino.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Próximo:</h3>
+<p class="text-neutral-300">4.3 — Riscos, custo e estudo de caso (o fecho do curso)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-4-1.html">← 4.1</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-3.html">4.3 →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Loop Agentes v2 — Engenharia de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-4-2#q1',{answer:1,explain:{0:"Não — o worker nunca dá merge; é o guardrail central deste padrão.",1:"Isso: o worker abre o PR, mas a porta final (o merge) é sempre humana.",2:"O manager só classifica o backlog; ele não aprova merges."}});}});</script>
+</body>
+</html>

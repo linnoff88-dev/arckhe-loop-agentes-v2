@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>4.3 Risks, cost, and case study | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(146,64,14,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(146,64,14,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(146,64,14,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .bg-sky-500\/10 { background-color: rgba(3,105,161,0.08); }
+    html:not(.dark) .border-sky-500\/30 { border-color: rgba(3,105,161,0.25); }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .text-green-400 { color: #15803d; }
+    html:not(.dark) .bg-green-900\/20 { background-color: rgba(21,128,61,0.08); }
+    html:not(.dark) .border-green-500\/30 { border-color: rgba(21,128,61,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) { .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; } }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s} .wf-a:nth-child(4){animation-delay:.75s}
+    }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha4/modulo-4-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha4/modulo-4-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha4/modulo-4-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-4-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha4/modulo-4-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-amber-400 focus:rounded-lg" href="#conteudo">Skip to content</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Agent Loops v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">When to use</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Practice</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Loop Engineering</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>My journey</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Switch theme" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Navigation track" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Start</a><span>/</span>
+<a class="hover:text-amber-400" href="index.html">Track 4</a><span>/</span>
+<span class="text-amber-400">Module 4.3</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MODULE 4.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🛰️ Risks, cost, and case study</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">The course wrap-up. The real dangers of the autonomous loop — handing over control, burning money, losing understanding — and the case study of how this very course was audited by a maker/checker loop. It ends with the takeaway: when it’s worth it, and when you just prompt once.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">7</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">~55</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Advanced</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Wrap-up</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Module 4.3 progress" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:4-3" role="progressbar">
+<span class="text-sm text-neutral-400">Progress:</span>
+<span class="inema-meter-pct text-amber-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 of 7</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Page index" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Section <span class="inema-toc-pos">1</span> of <span class="inema-toc-total">7</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-1">1. Cognitive surrender</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-2">2. Cost &amp; comprehension debt</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-3">3. 12-hour loops that don't work</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-4">4. Quality × attempts curve</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-5">5. Case study: the 45 sources</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-6">6. Real-world examples</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-7">7. When it's worth it</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">🛋️ Cognitive surrender</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t1-p1">The first danger is the most tempting. Addy Osmani calls it <strong class="text-amber-400">cognitive surrender</strong> (cognitive surrender): handing TOTAL control to the loop and stopping reading its output. You remain the reviewer—especially at the beginning, when you still don't know where the loop tends to fail.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? “cognitive surrender”</p>
+<p class="text-sm text-neutral-300"><strong>Cognitive surrender</strong> is switching off your own judgment and accepting everything the loop produces without looking. It's different from delegating: delegating means assigning the task while keeping the review; surrendering means giving up the review too. The loop gains autonomy; you lose quality control.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="A person leaning back while letting a machine run on its own, with a dollar sign going up and an ignored dashboard flashing an alert nearby" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t4-risk.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">What to look at:</strong> the temptation is to lean back and let the machine run. But the warning panel keeps flashing — and the cost keeps rising. The loop can't sense when it's going in the wrong direction; you're the missing sensor.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-2">✓ Delegate with review</h4>
+<p class="text-sm text-neutral-300">The loop acts; you read the output, especially at first. Gradually, you learn where it fails and review more lightly — but never blindly.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ Give up</h4>
+<p class="text-sm text-neutral-300">You stop reading. The loop drifts, accumulates errors, spends tokens — and you only find out when the damage is already costly or in production.</p>
+</div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">💸 Cost &amp; comprehension debt</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t2-p1">Autonomous loops have two costs. The obvious one: <strong class="text-amber-400">money</strong> — Firecrawl warns that running loops burns through tokens quickly. The less obvious and more dangerous point: <strong class="text-amber-400">comprehension debt</strong> (comprehension debt)—code that exists in your project and that no one understands anymore.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? “comprehension debt” and “tokenmaxxing”</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Comprehension debt</strong> (comprehension debt) is the accumulation of code/decisions the loop generated that you don’t understand. Like technical debt, it accrues interest: when something breaks, you don’t know why—no one read what was done.</p>
+<p class="text-sm text-neutral-300"><strong>Tokenmaxxing</strong> is maximizing token use / inference for its own sake — running large loops “because you can,” hoping more computation will solve the problem. It's spending inference as an end, not a means.</p>
+</aside>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ "tokenmaxxing inference looping"</h4>
+<p class="text-sm text-neutral-300">Rhys Sullivan rejects running large loops just for the sake of it — spending inference as an end in itself creates no value, just an API bill.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ "promptchud" (just prompting)</h4>
+<p class="text-sm text-neutral-300">Sullivan also rejects the opposite extreme: only prompting by hand, never automating. Both extremes waste time.</p>
+</div>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🎯</span> Sullivan’s middle ground</h3>
+<p class="text-neutral-300">Neither tokenmaxxing nor promptchud. The value is in the middle: <strong>agents that reproduce REAL problems in your product</strong> — a loop with a concrete, verifiable, high-value target (reproduce a bug your users experience). The loop isn’t the goal; solving the problem is.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">⏳ 12-hour loops that don’t work</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t3-p1">More loop time doesn’t mean more value. Nate Herk says he once had <strong class="text-amber-400">12h+ loops that weren’t useful</strong>. The sweet spot is usually much shorter — and there’s a ceiling where it stops paying off.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Loop duration scale: the useful range goes from about 35 minutes to a few hours, with a chunky overnight loop of 4 to 8 hours, and a waste zone beyond that" class="w-full h-auto" role="img" viewbox="0 0 1000 180">
+<defs>
+<lineargradient id="m43r-bar" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#34d399"></stop><stop offset="0.55" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f87171"></stop></lineargradient>
+<pattern height="32" id="m43r-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.1" r="1.3"></circle></pattern>
+</defs>
+<rect fill="url(#m43r-grid)" height="180" width="1000" x="0" y="0"></rect>
+<rect fill="url(#m43r-bar)" height="10" rx="5" width="880" x="60" y="86"></rect>
+<g fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle">
+<line stroke="#34d399" stroke-width="2" x1="150" x2="150" y1="78" y2="104"></line><text fill="#34d399" font-weight="600" x="150" y="64">~35 min</text><text x="150" y="128">useful: start here</text>
+<line stroke="#fbbf24" stroke-width="2" x1="430" x2="430" y1="78" y2="104"></line><text fill="#fbbf24" font-weight="600" x="430" y="64">a few hours</text><text x="430" y="128">good range</text>
+<line stroke="#fbbf24" stroke-width="2" x1="660" x2="660" y1="78" y2="104"></line><text fill="#fbbf24" font-weight="600" x="660" y="64">4–8h</text><text x="660" y="128">"chunky loop" before bed</text>
+<line stroke="#f87171" stroke-width="2" x1="900" x2="900" y1="78" y2="104"></line><text fill="#f87171" font-weight="600" x="900" y="64">12h+ / 4 days</text><text x="900" y="128">waste</text>
+</g>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Read the scale:</strong> the useful range is usually from ~35 min to a few hours. A "chunky loop" running for 4–8h while you sleep can pay off. But a 12h+ or 4-day loop almost never makes sense—more time means more drift, not more results.</p>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> The rule of thumb</h3>
+<p class="text-neutral-300">Start short. If a 35-minute to 2-hour loop isn't converging, stretching it to 12 hours rarely fixes the problem — the issue is usually the objective or the verification, not a lack of time. The "chunky overnight loop" is a reasonable ceiling; beyond that, you're just paying for the loop to drift.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">📈 The quality × attempts curve</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t4-p1">After the risks, here’s why all this is worthwhile. AI <strong class="text-amber-400">never gets it right on the first try</strong>. When you delegate the feedback-and-iteration cycle to the AI itself, quality improves much sooner than if you reviewed every round — it’s the same graph from Track 1, now through the eyes of the person who designs it.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Quality-by-attempts chart: the human line rises slowly; the loop line rises quickly and early to 90 to 95 percent" class="w-full h-auto" role="img" viewbox="0 0 1000 300">
+<defs>
+<pattern height="32" id="m43d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m43d-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<rect fill="url(#m43d-grid)" height="300" width="1000" x="0" y="0"></rect>
+<line stroke="#9ca3af" stroke-width="2" x1="90" x2="90" y1="40" y2="250"></line>
+<line stroke="#9ca3af" stroke-width="2" x1="90" x2="930" y1="250" y2="250"></line>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="end" x="60" y="50">100%</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="end" x="60" y="155">50%</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="285">attempts →</text>
+<line opacity="0.5" stroke="#fbbf24" stroke-dasharray="5 6" stroke-width="1" x1="90" x2="930" y1="70" y2="70"></line>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" x="935" y="74">90–95% (good enough)</text>
+<path d="M90,250 C300,210 520,165 920,120" fill="none" opacity="0.8" stroke="#9ca3af" stroke-width="2.4"></path>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12.5" x="780" y="150">human reviews every iteration (slow)</text>
+<path d="M90,250 C170,120 260,86 920,72" fill="none" filter="url(#m43d-glow)" stroke="#fbbf24" stroke-width="3"></path>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="300" y="95">loop (fast and early)</text>
+<circle cx="90" cy="250" fill="#38bdf8" r="5"></circle>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">What to look at:</strong> both lines reach the same level (90–95%), but the loop gets there much sooner. The difference isn't "AI is better"; it's that it plays the role of the human reviewer on every pass, without waiting for you to join the conversation.</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧠</span> Why this completes the argument</h3>
+<p class="text-neutral-300">All the risks from the previous sections (surrender, cost, drift) are the price of admission. You accept them because the curve is worth it: outsourcing iteration to AI gets you to "good enough" early. The track’s engineering—guardrails, verification, cadence—is what keeps the curve rising without letting you fall into those risks.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">🔬 Case study: how the audit of the 45 sources was done</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t5-p1">Here’s the most honest case study possible: <strong class="text-amber-400">this course came out of a maker/checker loop.</strong> The 45 sources you saw cited in Track 1 weren’t read by just one person—they were processed by a pipeline of agents with strictly separated roles. The principle: <em>the model that FINDS the source never EVALUATES it.</em></p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Four-stage pipeline: discover, extract, verify, and synthesize, with verification done by a separate, adversarial agent" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m43p-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m43p-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m43p-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m43p-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m43p-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="190" x="30" y="92"></rect><text fill="#bfe6ff" text-anchor="middle" x="125" y="116">DISCOVER</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="125" y="135">parallel researchers</text></g>
+<g class="wf-a"><rect fill="#1f1604" height="58" rx="13" stroke="#f59e0b" stroke-width="2" width="190" x="270" y="92"></rect><text fill="#fde68a" text-anchor="middle" x="365" y="116">EXTRACT (maker)</text><text fill="#fcd34d" font-size="10" font-weight="400" text-anchor="middle" x="365" y="135">copy the EXACT sentence</text></g>
+<g class="wf-a"><rect fill="#0e2018" height="58" rx="13" stroke="#34d399" stroke-width="2" width="190" x="510" y="92"></rect><text fill="#bbf7d0" text-anchor="middle" x="605" y="116">VERIFY (checker)</text><text fill="#86efac" font-size="10" font-weight="400" text-anchor="middle" x="605" y="135">separate · adversarial</text></g>
+<g class="wf-a"><g filter="url(#m43p-glow)"><rect fill="#1f1604" height="58" rx="13" stroke="url(#m43p-grad)" stroke-width="2.5" width="220" x="750" y="92"></rect></g><text fill="#fbbf24" text-anchor="middle" x="860" y="116">SYNTHESIZE</text><text fill="#cbd5e1" font-size="10" font-weight="400" text-anchor="middle" x="860" y="135">criticized by another agent</text></g>
+</g>
+<g fill="none" opacity="0.85" stroke="#fbbf24" stroke-width="2">
+<path class="wf-flow" d="M220,121 L268,121" marker-end="url(#m43p-ah)"></path>
+<path class="wf-flow" d="M460,121 L508,121" marker-end="url(#m43p-ah)"></path>
+<path class="wf-flow" d="M700,121 L748,121" marker-end="url(#m43p-ah)"></path>
+</g>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="196">golden rule: whoever FINDS the source never EVALUATES it</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Read the pipeline:</strong> is the adversarial maker/checker from 4.2 applied to research. The separation of roles is what builds trust: an optimistic agent that only searches, a pessimistic one that only verifies, and neither of them closing the loop on its own.</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">1</span><p class="text-sm text-neutral-300 pt-1"><strong class="text-amber-400">DISCOVER</strong> — parallel researchers scan docs, frameworks, papers, practitioners, YouTube, and X for definitions of “loop.”</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">2</span><p class="text-sm text-neutral-300 pt-1"><strong class="text-amber-400">EXTRACT (maker)</strong> — an agent copies the EXACT SENTENCE where the source defines the loop. No paraphrasing, no making things up.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">3</span><p class="text-sm text-neutral-300 pt-1"><strong class="text-amber-400">VERIFY (checker)</strong> — a SEPARATE, adversarial agent searches the URL again and labels it: confirmed, partial, or unverifiable.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm">4</span><p class="text-sm text-neutral-300 pt-1"><strong class="text-amber-400">SYNTHESIZE</strong> — a synthesis is written and then adversarially critiqued by ANOTHER agent before becoming content.</p></div>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🧩</span> Why separation matters</h3>
+<p class="text-neutral-300">If the same model found AND evaluated the source, it would approve its own finding — the bias from 4.2 in research form. Separating the roles is what turned "the AI said there was a quote" into "a quote that survived a second agent trying to disprove it." That was the loop that produced the course you're reading.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🎨 Real-world examples (from the video)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t6-p1">Four real loops from the source video to ground the theory. Notice that in ALL of them, the bottleneck is the same: how to make verification objective enough for the loop to know when to stop.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-2">🖼️ (a) Thumbnails</h4>
+<p class="text-sm text-neutral-300 mb-2">Generate 10 concepts, score each against a rubric (clarity at small sizes, curiosity, contrast), iterate on the best one.</p>
+<p class="text-xs text-neutral-500"><strong>The problem:</strong> "until you’re satisfied" is subjective. <strong>The improvement:</strong> a dedicated, evaluated "scorer" sub-agent.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-2">✈️ (b) Airplane in 3JS</h4>
+<p class="text-sm text-neutral-300 mb-2">Build the plane in Three.js + check it in the browser (rotate it, view the render), iterate.</p>
+<p class="text-xs text-neutral-500"><strong>Time:</strong> ~37 min. <strong>Verification:</strong> look at the actual render; don’t assume it compiled.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-2">🛣️ (c) Abbey Road in CSS</h4>
+<p class="text-sm text-neutral-300 mb-2">Screenshot each version; stop when the average ≥ 9 OR you hit the cap of 8 passes.</p>
+<p class="text-xs text-neutral-500"><strong>Stopped at V7.</strong> The dual stopping condition (note + cap) is the guardrail that prevents an infinite loop.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-2">🎬 (d) Video editing (HyperFrames)</h4>
+<p class="text-sm text-neutral-300 mb-2">Get the transcript, cut errors/pauses, create and sync the beats, and do A LOT of verification.</p>
+<p class="text-xs text-neutral-500"><strong>Verification:</strong> all beats in bounds and aligned with the transcript — the heaviest part of the loop.</p>
+</div>
+</div>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Timeline of the four examples with their stop conditions: thumbnails by rubric, plane by render, Abbey Road by score or cap, video by aligned beats" class="w-full h-auto" role="img" viewbox="0 0 1000 150">
+<defs>
+<pattern height="32" id="m43t-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.1" r="1.3"></circle></pattern>
+<marker id="m43t-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m43t-grid)" height="150" width="1000" x="0" y="0"></rect>
+<line marker-end="url(#m43t-ah)" stroke="#fbbf24" stroke-width="2" x1="60" x2="930" y1="75" y2="75"></line>
+<g fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle">
+<circle cx="150" cy="75" fill="#1f1604" r="7" stroke="#fbbf24" stroke-width="2"></circle><text fill="#fbbf24" font-weight="600" x="150" y="50">thumbnails</text><text x="150" y="104">rubric / scorer</text>
+<circle cx="370" cy="75" fill="#1f1604" r="7" stroke="#fbbf24" stroke-width="2"></circle><text fill="#fbbf24" font-weight="600" x="370" y="50">3JS airplane</text><text x="370" y="104">render in the browser</text>
+<circle cx="590" cy="75" fill="#1f1604" r="7" stroke="#fbbf24" stroke-width="2"></circle><text fill="#fbbf24" font-weight="600" x="590" y="50">Abbey Road</text><text x="590" y="104">score ≥ 9 or cap at 8</text>
+<circle cx="820" cy="75" fill="#1f1604" r="7" stroke="#fbbf24" stroke-width="2"></circle><text fill="#fbbf24" font-weight="600" x="820" y="50">video editing</text><text x="820" y="104">aligned beats</text>
+</g>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">The through line:</strong> each example only became a useful loop once it had a concrete check — a rubric, a render, a score with a cap, checked beats. Without that, it would be "iterate until you like it," which never stops.</p>
+</div>
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 mb-3">
+<p class="text-sm text-amber-400 font-semibold mb-1">Objective of the prompt below</p>
+<p class="text-sm text-neutral-300">Turn "iterate until you like it" into an objective stopping point: an adversarial checker scores the work against a rubric and approves only with a high score OR when it hits a pass limit—exactly the Abbey Road pattern.</p>
+</div>
+<div class="code-box mb-3">
+<pre><code># Cole como o prompt do agente VERIFICADOR (separado do que produz)
+
+Seu papel é CRITICAR, não criar. Receba o artefato e tente reprová-lo.
+Pontue de 0 a 10 cada critério da rubrica:
+- <clareza em="" pequeno="" tamanho="">
+- <contraste legibilidade="">
+- <fidelidade ao="" objetivo="">
+
+Regras de parada (aplique sem exceção):
+- APROVE só se a média for &gt;= 9.
+- Se ainda &lt; 9, escreva o defeito mais grave e devolva para refazer.
+- PARE de qualquer jeito ao atingir 8 passes — entregue o melhor até aqui.
+
+Nunca aprove o que você mesmo produziu. Justifique cada nota.</fidelidade></contraste></clareza></code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">How to verify:</strong> run the producer and checker in a loop on a simple artifact (e.g., a CSS layout). Confirm that the loop STOPPED for one of the two triggers — average ≥ 9 or 8 passes — and not "because you thought it was good." If it ran forever, the rubric or cap isn't being followed; tighten the prompt.</p>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-3#topico-7" id="topico-7">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">7</span>
+<h2 class="text-2xl font-bold">🧰 When it’s worthwhile (summary)</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-3-t7-p1">The entire course distilled into one rule. Put what is <strong class="text-amber-400">repetitive, reviewable, high-value, and with a built-in checker</strong>. For everything else, prompt once. And run loops at the right pace for YOUR use case — not 24/7 for status.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-green-900/20 rounded-xl border border-green-500/30 p-6">
+<h4 class="font-bold text-green-400 mb-3 flex items-center"><span class="mr-2">✅</span> Do this (put it in a loop)</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-green-400 mt-0.5">•</span><span>Tasks <strong>repetitive</strong> that keep coming back.</span></li>
+<li class="flex items-start space-x-2"><span class="text-green-400 mt-0.5">•</span><span>Work <strong>reviewable</strong> — you can check whether it’s “done.”</span></li>
+<li class="flex items-start space-x-2"><span class="text-green-400 mt-0.5">•</span><span><strong>High value</strong> — worth the token cost.</span></li>
+<li class="flex items-start space-x-2"><span class="text-green-400 mt-0.5">•</span><span>Has <strong>built-in checker</strong> (test, rubric, evaluator).</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-3 flex items-center"><span class="mr-2">⛔</span> Skip this (prompt once)</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">•</span><span>Task of <strong>one answer</strong>, without repetition.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">•</span><span>No way to <strong>verify</strong> the result objectively.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">•</span><span>Low value — the loop's cost isn't worth it.</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 mt-0.5">•</span><span><strong>24/7 by status</strong>, "because the pros do it."</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🎯</span> The sentence that closes the course</h3>
+<p class="text-neutral-300">Only loop with verification. Without a checker, a loop isn’t engineering—it’s an expensive way to make mistakes with confidence. The entire Track 4 (architect, fleet, guardrails, adversarial) exists to support one thing: the verification that tells the loop when it’s really done.</p>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-3#q1">
+<p class="font-medium mb-4">Which task is the BEST candidate to turn into a loop?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Writing a single email, with no objective way to measure “good.”</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Fix failing tests—repetitive, high-value work, with a built-in checker (the test suite).</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Anything, as long as it runs 24/7.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Module Summary — and course summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Cognitive surrender</strong><span class="text-neutral-400"> — don’t stop reading the output; you’re still the reviewer, especially at first.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Cost &amp; comprehension debt</strong><span class="text-neutral-400"> — neither tokenmaxxing nor promptchud; the middle ground is solving real problems.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">12-hour loops</strong><span class="text-neutral-400"> — the useful range is ~35 minutes to a few hours; overnight (4–8h) is the reasonable ceiling.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Quality × attempts curve</strong><span class="text-neutral-400"> — outsourcing iteration to AI reaches “good enough” early.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Case study</strong><span class="text-neutral-400"> — discover → extract → verify → synthesize; whoever finds never evaluates.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Real-world examples</strong><span class="text-neutral-400"> — they all became useful loops only after gaining a concrete check.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">When it’s worthwhile</strong><span class="text-neutral-400"> — repetitive, reviewable, high-value, with a checker. For everything else: prompt once.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">🏁 You’ve reached the end of the course</h3>
+<p class="text-neutral-300">From Track 1 (the reason→act→observe skeleton) to here, one idea runs through everything: <strong>a loop is only engineering when it has verification.</strong> Take this phrase with you. Return to the homepage to review any track, or open "My journey" to see what you still need to mark as read.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-4-2.html">← 4.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="../../index.html">Return to the start of the course →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Agent Loops v2 — Loop Engineering · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-4-3#q1',{answer:1,explain:{0:"Não — sem como medir 'bom', falta o checker; é caso de prompt único.",1:"Isso: repetitivo, alto valor e com a suíte de testes como checker embutido.",2:"Não — 24/7 por si só não torna nada um bom candidato a loop."}});}});</script>
+</body>
+</html>

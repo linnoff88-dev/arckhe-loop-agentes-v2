@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>1.1 El esqueleto: reason → act → observe | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .bg-sky-500\/10 { background-color: rgba(3,105,161,0.08); }
+    html:not(.dark) .border-sky-500\/30 { border-color: rgba(3,105,161,0.25); }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
+      .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; }
+    }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha1/modulo-1-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha1/modulo-1-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha1/modulo-1-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha1/modulo-1-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-1-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-emerald-400 focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Cuándo usar</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Práctica</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../../curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Ingeniería de Loops</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Mi recorrido</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Cambiar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Inicio</a><span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Ruta 1</a><span>/</span>
+<span class="text-emerald-400">Módulo 1.1</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧭 El esqueleto: reason → act → observe</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Verás cinco videos y cinco dibujos diferentes de "loop de agente". Este módulo muestra que todo es el mismo plano y te da el esqueleto que sirve para cualquier herramienta.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">~40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Base</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Teoría</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Progreso del módulo 1.1" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:1-1" role="progressbar">
+<span class="text-sm text-neutral-400">Progreso:</span>
+<span class="inema-meter-pct text-emerald-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 de 6</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Índice de la página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-1">1. Qué es un loop de agente</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-2">2. Las 4 figuras que se confunden</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-3">3. El beat "observe"</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-4">4. El pasante inteligente</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-5">5. Loop vs. prompt único</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10" href="#topico-6">6. El ciclo, cerrado</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">⚙️ Qué es un bucle de agente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t1-p1">Un <strong class="text-emerald-400">loop de agente</strong> es solo una IA que <strong class="text-emerald-400">razona</strong> qué hacer, <strong class="text-emerald-400">actúa</strong>, e <strong class="text-emerald-400">observa</strong> el resultado, una y otra vez, hasta alcanzar el objetivo. Nada de magia: tres pasos que se repiten hacia una meta, hasta que una verificación de «¿listo?» indica que hay que parar.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? Dos términos que aparecerán durante todo el curso</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>LLM</strong> es solo un modelo de IA: el tipo de cosa que funciona detrás de ChatGPT. Es la "cabeza" que decide el siguiente paso.</p>
+<p class="text-sm text-neutral-300"><strong>Herramienta</strong> (en inglés, <em>tool</em>) es algo que esa IA hace por su cuenta: buscar en la web, ejecutar código, editar un archivo. Sin herramientas, el modelo solo conversa; con herramientas, actúa en el mundo.</p>
+</aside>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="El ciclo del loop: a partir del objetivo, reason lleva a act, que lleva a observe, que vuelve a la comprobación de listo; si no, se repite; si sí, se detiene" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m11a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<filter height="180%" id="m11a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m11a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m11a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m11a-grid)" height="250" width="1000" x="0" y="0"></rect>
+<g filter="url(#m11a-glow)"><rect fill="#0e2018" height="58" rx="14" stroke="url(#m11a-grad)" stroke-width="2.5" width="150" x="40" y="96"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="115" y="120">OBJETIVO</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="115" y="139">+ "¿listo?"</text>
+<g font-family="Inter,sans-serif" font-size="15" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="150" x="270" y="96"></rect><text fill="#bfe6ff" text-anchor="middle" x="345" y="124">reason</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="345" y="142">pensar el paso</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="150" x="500" y="96"></rect><text fill="#bfe6ff" text-anchor="middle" x="575" y="124">act</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="575" y="142">usar una herramienta</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="150" x="730" y="96"></rect><text fill="#bfe6ff" text-anchor="middle" x="805" y="124">observa</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="805" y="142">leer el resultado</text></g>
+</g>
+<g fill="none" opacity="0.75" stroke="#34d399" stroke-width="2">
+<path class="wf-flow" d="M190,125 L268,125" marker-end="url(#m11a-ah)"></path>
+<path class="wf-flow" d="M420,125 L498,125" marker-end="url(#m11a-ah)"></path>
+<path class="wf-flow" d="M650,125 L728,125" marker-end="url(#m11a-ah)"></path>
+</g>
+<path d="M805,154 C805,210 345,210 345,156" fill="none" marker-end="url(#m11a-ah)" opacity="0.6" stroke="#34d399" stroke-dasharray="6 6" stroke-width="2"></path>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="575" y="203">¿no terminó? vuelve a reason</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Lee el diagrama:</strong> a partir del objetivo, el agente piensa (reason), actúa con una herramienta (act) y lee lo que ocurrió (observe). Si aún no terminó, vuelve al inicio. Cuando pasa la comprobación «¿listo?», se detiene.</p>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧩</span> La frase que lo resume todo</h3>
+<p class="text-neutral-300">"Un loop de agente es un LLM que llama herramientas, revisa el resultado y repite para alcanzar un objetivo declarado, hasta que está listo o tú lo detienes." Guarda esa frase: es la respuesta modelo que encaja con las 11 definiciones que existen por ahí.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">🖼️ Las 4 figuras que confunden</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t2-p1">Mira cinco videos y verás cinco figuras diferentes. Son el mismo concepto desde distintos ángulos. Estas son las cuatro con las que más te encontrarás, y la confusión no es culpa tuya.</p>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="Cuatro diagramas luminosos del mismo loop, cada uno visto desde un ángulo ligeramente distinto" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t1-four-views.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Qué ver:</strong> cuatro dibujos, una sola planta. Quien está empezando cree que son cuatro cosas; son cuatro fotos del mismo objeto.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-emerald-400 mb-1">🔵 "Think → Act → See"</h4><p class="text-sm text-neutral-400">Los mismos tres tiempos, con palabras más antiguas (el artículo de ReAct).</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-emerald-400 mb-1">🟢 "El modelo usa herramientas en repetición"</h4><p class="text-sm text-neutral-400">La versión más sencilla: un modelo que llama herramientas sin parar (Anthropic).</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-emerald-400 mb-1">🟡 "Se ejecuta solo"</h4><p class="text-sm text-neutral-400">El mismo loop, pero dejándolo en ejecución sin supervisión hacia una meta (AutoGPT).</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-emerald-400 mb-1">🟣 "Un jefe, varios ayudantes"</h4><p class="text-sm text-neutral-400">Un agente líder asigna tareas a subagentes (multiagente).</p></div>
+</div>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Cuatro cajas etiquetadas con las cuatro figuras convergen en una sola caja: el esqueleto reason-act-observe" class="w-full h-auto" role="img" viewbox="0 0 1000 220">
+<defs>
+<lineargradient id="m11c-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop></lineargradient>
+<filter height="180%" id="m11c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m11c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m11c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+</defs>
+<rect fill="url(#m11c-grid)" height="220" width="1000" x="0" y="0"></rect>
+<g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="200" x="40" y="20"></rect><text fill="#bfe6ff" text-anchor="middle" x="140" y="42">Think → Act → See</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="200" x="40" y="66"></rect><text fill="#bfe6ff" text-anchor="middle" x="140" y="88">modelo + herramientas</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="200" x="40" y="120"></rect><text fill="#bfe6ff" text-anchor="middle" x="140" y="142">se ejecuta solo</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="34" rx="9" stroke="#38bdf8" stroke-width="2" width="200" x="40" y="166"></rect><text fill="#bfe6ff" text-anchor="middle" x="140" y="188">jefe + ayudantes</text></g>
+</g>
+<g fill="none" opacity="0.5" stroke="#34d399" stroke-width="1.8">
+<path d="M240,37 C420,37 470,100 590,108" marker-end="url(#m11c-ah)"></path>
+<path d="M240,83 C420,83 470,104 590,110" marker-end="url(#m11c-ah)"></path>
+<path d="M240,137 C420,137 470,116 590,112" marker-end="url(#m11c-ah)"></path>
+<path d="M240,183 C420,183 470,124 590,114" marker-end="url(#m11c-ah)"></path>
+</g>
+<g filter="url(#m11c-glow)"><rect fill="#0e2018" height="74" rx="16" stroke="url(#m11c-grad)" stroke-width="2.5" width="370" x="590" y="74"></rect></g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="17" font-weight="600" text-anchor="middle" x="775" y="106">UN ESQUELETO</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="13" text-anchor="middle" x="775" y="128">reason → act → observe</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">La clave:</strong> no importa el diseño: todos se reducen al mismo esqueleto. Aprende el esqueleto y cualquier figura nueva será obvia.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">👁️ El beat «observa»</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t3-p1">De los tres golpes, el del medio del nombre — <strong class="text-emerald-400">observa</strong> — es lo que hace que el loop funcione de verdad. Es el momento en que el agente <em>lee su propio resultado</em> en vez de suponer que funcionó.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "ground truth"</p>
+<p class="text-sm text-neutral-300"><strong>Ground truth</strong> es la verdad del mundo real: lo que realmente ocurrió, no lo que el modelo creyó que iba a ocurrir. Cuando el agente ejecuta una prueba y lee "2 fallaron", eso es ground truth. Observar consiste precisamente en buscar esa verdad en cada paso.</p>
+</aside>
+<div class="grid lg:grid-cols-2 gap-6 mb-6 items-center">
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<img alt="Un sensor luminoso leyendo un panel de resultados, con una flecha de retorno" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t1-observe.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Qué ver:</strong> el agente lee el resultado y la información vuelve para la siguiente decisión. Sin esa lectura, queda a ciegas.</p>
+</div>
+<div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-4">
+<h4 class="font-bold text-red-400 mb-2">✗ Sin observar</h4>
+<p class="text-sm text-neutral-300">El agente actúa, supone que funcionó y sigue adelante. Resultado: trabajo pulido, seguro de sí mismo e <strong>incorrecto</strong> — y lo llama «hecho».</p>
+</div>
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-2">✓ Observando</h4>
+<p class="text-sm text-neutral-300">El agente ejecuta la prueba, lee la salida real, se da cuenta de lo que aún falta — y ajusta. Eso es lo que hace que el loop <em>converger</em> en vez de derivar.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> Por qué esto es el corazón del ciclo</h3>
+<p class="text-neutral-300">Observar es el mecanismo que hace posible el "¿listo?". Si el agente no lee su propio resultado, no puede saber si terminó; entonces, o se detiene demasiado pronto (entrega algo roto) o nunca se detiene. Toda la Trilha 2 gira en torno a una pregunta: <em>¿cómo comprueba este agente que ya está listo?</em></p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">🧑‍💼 El pasante astuto</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t4-p1">El mejor modelo mental: piensa en un <strong class="text-emerald-400">un pasante inteligente al que no supervisas al detalle</strong>. Tú defines la meta. Él descubre el siguiente paso, lo ejecuta, revisa su propio trabajo y sigue; solo vuelve contigo cuando termina (o se bloquea).</p>
+<div class="grid lg:grid-cols-2 gap-6 mb-6 items-center">
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
+<img alt="Un robot pasante trabajando solo en un escritorio, con una lista de verificación flotando al lado" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t1-intern.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Qué ver:</strong> trabaja solo y revisa su propia lista de verificación. Tú no dictas cada paso: das el objetivo y la definición de "listo".</p>
+</div>
+<div class="space-y-3">
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">1</span><p class="text-sm text-neutral-300 pt-1">Entregas <strong>la meta</strong>, no la lista de pasos.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">2</span><p class="text-sm text-neutral-300 pt-1">Él <strong>descubre el siguiente paso</strong> y ejecuta.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">3</span><p class="text-sm text-neutral-300 pt-1">Él <strong>revisa su propio trabajo</strong> y repite.</p></div>
+<div class="flex items-start space-x-3"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">4</span><p class="text-sm text-neutral-300 pt-1">Él <strong>vuelve a ti</strong> solo cuando terminó o se atascó.</p></div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧠</span> Por qué esta metáfora ayuda</h3>
+<p class="text-neutral-300">Calibra dos decisiones que tomarás todo el tiempo: <strong>qué delegar</strong> (la tarea repetitiva y verificable) y <strong>qué verificar</strong> (cómo sabe el practicante que ya está listo). Un loop de agente es exactamente eso, en software.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">🔁 Loop vs. prompt único</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t5-p1">La IA nunca acierta a la primera. En un <strong class="text-emerald-400">prompt único</strong> (one-shot) aceptas la respuesta del primer intento. En un <strong class="text-emerald-400">loop</strong>, la IA asume el papel del humano que da feedback y hace iteraciones, y por eso se acerca mucho más.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "one-shot"</p>
+<p class="text-sm text-neutral-300"><strong>One-shot</strong> (o "prompt único") es pedir una vez y quedarse con la primera respuesta. Es más rápido y barato, y para muchas tareas es suficiente. El loop solo vale la pena cuando una sola vuelta no basta.</p>
+</aside>
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Gráfico de calidad por intentos: la línea humana sube lentamente; la línea del bucle sube rápido desde el principio hasta el 90 a 95 por ciento" class="w-full h-auto" role="img" viewbox="0 0 1000 300">
+<defs>
+<pattern height="32" id="m11d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#10b981" opacity="0.1" r="1.3"></circle></pattern>
+<filter height="180%" id="m11d-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<rect fill="url(#m11d-grid)" height="300" width="1000" x="0" y="0"></rect>
+<line stroke="#9ca3af" stroke-width="2" x1="90" x2="90" y1="40" y2="250"></line>
+<line stroke="#9ca3af" stroke-width="2" x1="90" x2="930" y1="250" y2="250"></line>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="end" x="60" y="50">100%</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="end" x="60" y="155">50%</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="500" y="285">intentos →</text>
+<line opacity="0.5" stroke="#34d399" stroke-dasharray="5 6" stroke-width="1" x1="90" x2="930" y1="70" y2="70"></line>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" x="935" y="74">90–95% (suficientemente bueno)</text>
+<path d="M90,250 C300,210 520,165 920,120" fill="none" opacity="0.8" stroke="#9ca3af" stroke-width="2.4"></path>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="12.5" x="780" y="150">humano (lento)</text>
+<path d="M90,250 C170,120 260,86 920,72" fill="none" filter="url(#m11d-glow)" stroke="#34d399" stroke-width="3"></path>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" x="300" y="95">loop (rápido y temprano)</text>
+<circle cx="90" cy="250" fill="#38bdf8" r="5"></circle>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Qué ver:</strong> llega al mismo lugar (90–95%), pero el bucle sube mucho antes porque delega el ciclo de feedback e iteración a la propia IA, en vez de esperar a que revises cada vuelta.</p>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-1-1#q1">
+<p class="font-medium mb-4">¿Cuándo vale más la pena un loop que un prompt único?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Siempre: loop siempre es mejor que un prompt único.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Cuando hay una forma de verificar que está "listo" y vale la pena iterar hasta llegar a ese punto.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">En una tarea de una sola respuesta, que un prompt ya resuelve.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-1-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🎯 El ciclo, cerrado</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m1-1-t6-p1">Cierre del módulo: cada vuelta es un paso y el agente recorre el ciclo —actuar, observar, actuar, observar— hasta que la comprobación de «¿listo?» se supera, o un <strong class="text-emerald-400">guardrail</strong> (un límite de seguridad, como un número máximo de intentos) parar. Ya puedes imaginar un loop de verdad en marcha.</p>
+<div class="code-box mb-2">
+<pre><code># Cole no Claude Code — seu primeiríssimo loop (você vai aprofundar na Trilha 3)
+
+# o objetivo
+Conserte o único teste que está falhando neste projeto.
+
+# o que "pronto" significa (deixe checável)
+Pronto quando: esse teste passa ao rodar a suíte de testes.
+
+# como checar
+Verifique rodando os testes e lendo a saída.
+
+# o guardrail
+Continue até passar, ou pare depois de 5 tentativas e me avise.</code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-emerald-400">Cómo verificar:</strong> abre un proyecto pequeño con 1 prueba fallida, pega el prompt en Claude Code y observa cómo repite reason→act→observe hasta que pasen las pruebas (o se detenga tras 5 intentos). Ese es el esqueleto de este módulo en funcionamiento.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">📒</span> Glosario base (llévalo al resto del curso)</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">•</span><span><strong>LLM</strong> — el modelo de IA que decide el siguiente paso.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">•</span><span><strong>Herramienta (tool)</strong> — una acción que ejecuta el modelo (buscar, ejecutar código, editar un archivo).</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">•</span><span><strong>Iteración / vuelta</strong> — una pasada por reason→act→observe.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">•</span><span><strong>Ground truth</strong> — el resultado real que observa el agente.</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-0.5">•</span><span><strong>Guardrail</strong> — un límite de seguridad (p. ej., máximo de intentos).</span></li>
+</ul>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Qué es un loop de agente</strong><span class="text-neutral-400"> — IA que razona, actúa y observa, repitiendo hasta estar "lista".</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Las 4 figuras</strong><span class="text-neutral-400"> — Think→Act→See, modelo+herramientas, funciona solo, líder+ayudantes: un solo esqueleto.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">El beat observe</strong><span class="text-neutral-400"> — leer el propio resultado (ground truth) es lo que hace que el loop converja.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">El pasante listo</strong><span class="text-neutral-400"> — meta dada, pasos descubiertos, autocorrección.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Loop vs. prompt único</strong><span class="text-neutral-400"> — el loop delega el feedback a la IA y eleva la calidad más rápido.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">El ciclo, cerrado</strong><span class="text-neutral-400"> — vuelta = paso; guardrail; glosario base del curso.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Siguiente:</h3>
+<p class="text-neutral-300">1.2 — El núcleo invariante: 6 elementos</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-2.html">1.2 →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Loop Agentes v2 — Ingeniería de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-1-1#q1',{answer:1,explain:{0:"Quase — a maioria das tarefas é prompt único; loop nem sempre compensa.",1:"Isso: loop brilha quando há como checar 'pronto' e vale iterar até lá.",2:"Esse é o caso de prompt único, não de loop."}});}});</script>
+</body>
+</html>

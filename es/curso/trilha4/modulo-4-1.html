@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="loopv2" name="inema-course"/>
+<title>4.1 Deja de escribir prompts, diseña loops | Loop Agentes v2</title>
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style, scale=(+p.fontScale||100);
+      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../../assets/learn.css" rel="stylesheet"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "loopv2",
+  "tracks": [
+    { "n": "1", "title": "Fundamentos", "modules": [
+      { "id": "1-1", "title": "O esqueleto: reason → act → observe", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+      { "id": "1-2", "title": "O núcleo invariante: 6 elementos", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" },
+      { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
+    ]},
+    { "n": "2", "title": "Quando usar loop", "modules": [
+      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
+      { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
+    ]},
+    { "n": "3", "title": "Primeiro loop (prática)", "modules": [
+      { "id": "3-1", "title": "A sequência de 7 passos", "topics": 7, "href": "curso/trilha3/modulo-3-1.html" },
+      { "id": "3-2", "title": "Loops para copiar e rodar", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" },
+      { "id": "3-3", "title": "8 ingredientes de um loop sólido", "topics": 8, "href": "curso/trilha3/modulo-3-3.html" },
+      { "id": "3-4", "title": "Os 8 erros comuns", "topics": 8, "href": "curso/trilha3/modulo-3-4.html" }
+    ]},
+    { "n": "4", "title": "Loop Engineering", "modules": [
+      { "id": "4-1", "title": "Pare de promptar, projete loops", "topics": 6, "href": "curso/trilha4/modulo-4-1.html" },
+      { "id": "4-2", "title": "Padrões avançados", "topics": 7, "href": "curso/trilha4/modulo-4-2.html" },
+      { "id": "4-3", "title": "Riscos, custo e estudo de caso", "topics": 7, "href": "curso/trilha4/modulo-4-3.html" }
+    ]}
+  ]
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"], [id^="modulo-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(146,64,14,0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(146,64,14,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(146,64,14,0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(146,64,14,0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .bg-sky-500\/10 { background-color: rgba(3,105,161,0.08); }
+    html:not(.dark) .border-sky-500\/30 { border-color: rgba(3,105,161,0.25); }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.07); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    .code-box { background:#0b1220; border:1px solid #1e293b; border-radius:0.75rem; }
+    html:not(.dark) .code-box { background:#0f172a; }
+    .code-box pre { margin:0; padding:1rem 1.25rem; overflow-x:auto; }
+    .code-box code { font-family:'Inter',ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.82rem; line-height:1.6; color:#cbd5e1; white-space:pre; }
+    @keyframes wf-dash { to { stroke-dashoffset:-28; } }
+    @media (prefers-reduced-motion: no-preference) { .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; } }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s} .wf-a:nth-child(4){animation-delay:.9s}
+    }
+  </style>
+<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha4/modulo-4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha4/modulo-4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha4/modulo-4-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha4/modulo-4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-amber-400 focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Cuándo usar</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Práctica</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Ingeniería de Loops</span></a>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Mi recorrido</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button aria-label="Cambiar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Ruta de navegación" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-amber-400" href="../../index.html">Inicio</a><span>/</span>
+<a class="hover:text-amber-400" href="index.html">Ruta 4</a><span>/</span>
+<span class="text-amber-400">Módulo 4.1</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full mb-4">MÓDULO 4.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔄 Deja de escribir prompts; diseña loops</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">El cambio mental del nivel avanzado: dejas de ser la persona que escribe cada prompt y pasas a ser quien diseña el sistema que escribe los prompts por ti. Aquí verás de dónde viene esta idea, qué significa y, honestamente, para quién no es adecuada.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">~45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Avanzado</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Concepto</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+<div class="mt-6 max-w-2xl">
+<div aria-label="Progreso del módulo 4.1" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:4-1" role="progressbar">
+<span class="text-sm text-neutral-400">Progreso:</span>
+<span class="inema-meter-pct text-amber-400 font-bold text-sm">0%</span>
+<span class="inema-meter-count text-xs text-neutral-500">0 de 6</span>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+<nav aria-label="Índice de la página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></p>
+<ul class="space-y-1 text-sm">
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-1">1. El giro</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-2">2. El humano como arquitecto</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-3">3. El meta-agente</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-4">4. Loop = objetivo recursivo</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-5">5. Estado externalizado</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-6">6. No es para todo el mundo</a></li>
+</ul>
+</nav>
+<main class="inema-prose min-w-0" id="conteudo">
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-1" id="topico-1">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
+<h2 class="text-2xl font-bold">🔄 El giro</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t1-p1">Peter Steinberger resume el cambio de nivel avanzado en una frase: <strong class="text-amber-400">"ya no deberías estar escribiendo prompts para tus agentes de código; deberías estar diseñando loops que les den prompts a tus agentes."</strong> La persona que escribía cada instrucción sale de escena; entra un sistema que escribe las instrucciones en su lugar.</p>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<img alt="Una figura humana frente a una mesa de arquitecto, diseñando una máquina luminosa de engranajes que funciona sola" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t4-architect.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Qué ver:</strong> la persona ya no tiene la mano en el prompt: la tiene en el plano. Diseña la máquina que escribe los prompts; la máquina es la que conversa con el agente, vuelta tras vuelta.</p>
+</div>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Antes: una persona le da instrucciones directas al agente, vuelta a vuelta. Después: una persona diseña un bucle y el bucle le da instrucciones al agente" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m41a-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m41a-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m41a-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m41a-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m41a-grid)" height="230" width="1000" x="0" y="0"></rect>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="245" y="28">ANTES</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="745" y="28">DESPUÉS (ingeniería de loops)</text>
+<line stroke="#374151" stroke-dasharray="4 5" stroke-width="1.5" x1="500" x2="500" y1="44" y2="210"></line>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<rect fill="#1f1604" height="50" rx="12" stroke="#fbbf24" stroke-width="2" width="140" x="60" y="100"></rect><text fill="#fde68a" text-anchor="middle" x="130" y="130">tú</text>
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="140" x="300" y="100"></rect><text fill="#bfe6ff" text-anchor="middle" x="370" y="130">agente</text>
+</g>
+<path class="wf-flow" d="M200,118 L298,118" fill="none" marker-end="url(#m41a-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M298,134 L202,134" fill="none" marker-end="url(#m41a-ah)" opacity="0.7" stroke="#38bdf8" stroke-dasharray="6 6" stroke-width="2"></path>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="250" y="174">tú escribes un prompt en cada iteración</text>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g filter="url(#m41a-glow)"><rect fill="#1f1604" height="50" rx="12" stroke="url(#m41a-grad)" stroke-width="2.5" width="120" x="560" y="100"></rect></g><text fill="#fde68a" text-anchor="middle" x="620" y="130">tú</text>
+<rect fill="#1f1604" height="50" rx="12" stroke="#f59e0b" stroke-width="2" width="120" x="720" y="100"></rect><text fill="#fde68a" font-size="12" text-anchor="middle" x="780" y="123">LOOP</text><text fill="#fcd34d" font-size="9.5" font-weight="400" text-anchor="middle" x="780" y="139">que crea prompts</text>
+<rect fill="#0e1b26" height="50" rx="12" stroke="#38bdf8" stroke-width="2" width="100" x="880" y="100"></rect><text fill="#bfe6ff" text-anchor="middle" x="930" y="130">agente</text>
+</g>
+<path d="M680,125 L718,125" fill="none" marker-end="url(#m41a-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path class="wf-flow" d="M840,125 L878,125" fill="none" marker-end="url(#m41a-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="700" y="174">tú lo diseñas una vez; el ciclo conversa</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Lee el diagrama:</strong> antes, tu atención intervenía en cada vuelta. Después, tu atención interviene una vez —al diseñar el loop— y el loop lleva la conversación con el agente.</p>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3 flex items-center"><span class="mr-2">🗣️</span> La misma idea, en boca de otra persona</h3>
+<p class="text-neutral-300 mb-2">Boris Cherny aparece citado diciendo algo parecido: <em>"ya no le doy prompts a Claude: tengo loops en ejecución, y son ellos los que le dan prompts a Claude."</em> El ingeniero deja de ser el operador y se convierte en el diseñador.</p>
+<p class="text-sm text-neutral-400"><strong>Honestidad:</strong> esa frase de Cherny circula <em>citada por terceros</em>, no como una frase verificada en la fuente primaria. Tómala como una ilustración del espíritu del cambio, no como una cita literal confirmada.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-2" id="topico-2">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
+<h2 class="text-2xl font-bold">🏛️ El humano como arquitecto</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t2-p1">El cambio tiene un nombre: <strong class="text-amber-400">loop engineering</strong>. La decisión es deliberada: tú <em>se sustituye</em> como la persona que le da prompts al agente. En vez de escribir la siguiente instrucción, diseñas el SISTEMA que decide y escribe esa instrucción por ti.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "loop engineering"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Ingeniería de Loops</strong> es la disciplina de diseñar el loop en vez de operar el agente a mano. Diseñas el objetivo, la verificación de "listo", los límites de seguridad y lo que activa cada vuelta, y dejas que ese sistema funcione.</p>
+<p class="text-sm text-neutral-300">Compara con <strong>ingeniería de prompts</strong> (pulir una buena instrucción): aquí el objeto de trabajo ya no es el texto de un prompt, sino la <em>máquina que genera prompts</em> iteración tras iteración.</p>
+</aside>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-2">✗ Operador (tú dentro del ciclo)</h4>
+<p class="text-sm text-neutral-300">Lees el resultado, piensas en el siguiente paso, escribes el prompt, esperas y repites. Tu tiempo crece de forma lineal con el número de vueltas: tú eres el cuello de botella.</p>
+</div>
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-2">✓ Arquitecto (tú fuera del ciclo)</h4>
+<p class="text-sm text-neutral-300">Defines el objetivo, la verificación y los límites una sola vez. El loop completa las vueltas por su cuenta. Tu tiempo se invierte en el <em>diseño</em>, no en cada iteración.</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> Por qué esto cambia la escala</h3>
+<p class="text-neutral-300">Como operador, atiendes una conversación a la vez. Como arquitecto, puedes tener varios loops en ejecución, porque tu trabajo se convirtió en el <em>diseño</em>, no la escritura. Es el prerrequisito mental para todo lo que viene en esta ruta: flotas, bucles programados, verificadores adversariales.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-3" id="topico-3">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
+<h2 class="text-2xl font-bold">🤖 El metaagente</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t3-p1">Si estás diseñando loops, surge una idea provocadora: ¿y si un agente diseñara los loops por ti? Ese es el <strong class="text-amber-400">meta-agente</strong> — un agente que INFIERE, según tu forma de trabajar (tu «vibe»), qué loops querrías y los escribe.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "meta-agente"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Meta</strong> aquí significa "sobre sí mismo": un metaagente es un agente cuyo trabajo es <em>producir otros agentes o loops</em>, en vez de ejecutar la tarea final.</p>
+<p class="text-sm text-neutral-300">Piensa en una escalera: escribes prompts para el agente → diseñas el loop que escribe prompts para el agente → un metaagente diseña los loops por ti. Cada escalón te aleja un paso más de la operación manual.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Escalera de tres peldaños: pedirle al agente con un prompt, diseñar el loop y crear el metaagente que diseña los loops" class="w-full h-auto" role="img" viewbox="0 0 1000 210">
+<defs>
+<lineargradient id="m41b-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m41b-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m41b-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m41b-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m41b-grid)" height="210" width="1000" x="0" y="0"></rect>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<rect fill="#0e1b26" height="48" rx="11" stroke="#38bdf8" stroke-width="2" width="250" x="40" y="138"></rect><text fill="#bfe6ff" text-anchor="middle" x="165" y="160">tú escribes un prompt para el agente</text><text fill="#9ad6ff" font-size="10.5" font-weight="400" text-anchor="middle" x="165" y="177">operación manual</text>
+<rect fill="#1f1604" height="48" rx="11" stroke="#f59e0b" stroke-width="2" width="250" x="375" y="88"></rect><text fill="#fde68a" text-anchor="middle" x="500" y="110">tú diseñas el ciclo</text><text fill="#fcd34d" font-size="10.5" font-weight="400" text-anchor="middle" x="500" y="127">loop engineering</text>
+<g filter="url(#m41b-glow)"><rect fill="#1f1604" height="48" rx="11" stroke="url(#m41b-grad)" stroke-width="2.5" width="250" x="710" y="38"></rect></g><text fill="#fde68a" text-anchor="middle" x="835" y="60">el meta-agente diseña los loops</text><text fill="#fcd34d" font-size="10.5" font-weight="400" text-anchor="middle" x="835" y="77">infiere según tu "vibe"</text>
+</g>
+<path d="M290,150 C330,150 340,118 373,112" fill="none" marker-end="url(#m41b-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M625,100 C665,100 675,68 708,62" fill="none" marker-end="url(#m41b-ah)" stroke="#fbbf24" stroke-width="2"></path>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">La escalera de abstracción:</strong> cada escalón te aleja un paso de escribir instrucciones. El metaagente es el escalón más alto y especulativo, y exige guardrails aún más estrictos (verás por qué en la 4.3).</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧠</span> Por qué esto es una provocación, no una receta</h3>
+<p class="text-neutral-300">Cuanto más arriba en la escalera, menos ves lo que está pasando y más se propaga un error sin revisión. El metaagente es una dirección tentadora para quien ya domina los peldaños inferiores; es una trampa para quien se salta etapas. Ten presente la tensión: la abstracción gana escala y pierde visibilidad.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-4" id="topico-4">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
+<h2 class="text-2xl font-bold">♻️ Loop = objetivo recursivo</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t4-p1">Addy Osmani da la definición que organiza toda la ruta: <strong class="text-amber-400">un ciclo es un objetivo recursivo</strong> — defines un propósito y la IA itera hasta completarlo. Todo loop sólido se apoya en dos pilares.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "objetivo recursivo"</p>
+<p class="text-sm text-neutral-300"><strong>Recursivo</strong> = que se aplica a sí mismo una y otra vez. Un objetivo recursivo es una meta que la IA persigue repitiendo el mismo movimiento —intentar, comprobar, volver a intentar— hasta que la comprobación indique «listo». El objetivo no cambia; lo que cambia es el estado del trabajo en cada vuelta.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="El objetivo recursivo: del objetivo parte una iteración que verifica; si no pasa, vuelve a iterar; si pasa, se detiene" class="w-full h-auto" role="img" viewbox="0 0 1000 250">
+<defs>
+<lineargradient id="m41c-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m41c-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m41c-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle></pattern>
+<marker id="m41c-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m41c-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m41c-grid)" height="250" width="1000" x="0" y="0"></rect>
+<g filter="url(#m41c-glow)"><rect fill="#1f1604" height="58" rx="14" stroke="url(#m41c-grad)" stroke-width="2.5" width="200" x="50" y="98"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="150" y="122">OBJETIVO</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="150" y="141">el «qué»</text>
+<rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="200" x="370" y="98"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="470" y="122">ITERAR</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="470" y="141">dar un paso</text>
+<rect fill="#0e1b26" height="58" rx="13" stroke="#38bdf8" stroke-width="2" width="200" x="690" y="98"></rect><text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="790" y="122">VERIFICAR</text><text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="790" y="141">el «cómo sabe que se detuvo»</text>
+<path class="wf-flow" d="M250,127 L368,127" fill="none" marker-end="url(#m41c-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path class="wf-flow" d="M570,127 L688,127" fill="none" marker-end="url(#m41c-ah)" stroke="#fbbf24" stroke-width="2"></path>
+<path d="M790,156 C790,212 470,212 470,158" fill="none" marker-end="url(#m41c-ahc)" opacity="0.7" stroke="#38bdf8" stroke-dasharray="6 6" stroke-width="2"></path>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" text-anchor="middle" x="630" y="205">¿no pasó? recursión: vuelve a iterar</text>
+<path d="M890,118 L955,118" fill="none" marker-end="url(#m41c-ah)" stroke="#34d399" stroke-width="2"></path>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" x="958" y="106">pasó:</text>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" x="958" y="122">para</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Los dos pilares:</strong> o <strong>OBJETIVO</strong> (lo que quieres) y el <strong>VERIFICACIÓN</strong> (cómo sabe la IA que terminó). Sin el objetivo, no tiene una meta; sin la verificación, no sabe cuándo detenerse, y la recursión nunca termina (o termina demasiado pronto).</p>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🧩</span> Dónde se conecta esto con la Trilha 1</h3>
+<p class="text-neutral-300">Es el mismo esqueleto reason→act→observe que viste al principio, solo que expresado desde el punto de vista de quien DISEÑA. "Objetivo + verificación" es el núcleo invariable; loop engineering es simplemente lo que haces con él cuando dejas de operar y empiezas a diseñar.</p>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-5" id="topico-5">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
+<h2 class="text-2xl font-bold">💾 Estado externalizado</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t5-p1">Un loop de verdad funciona más allá de una sola conversación. Para sobrevivir a varias <strong class="text-amber-400">ventanas de contexto</strong>, necesitas sacar el estado de la cabeza del agente y ponerlo en el mundo: <strong class="text-amber-400">git + archivos de progreso</strong>. Es la receta del harness de Anthropic.</p>
+<aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
+<p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "context window" y "estado externalizado"</p>
+<p class="text-sm text-neutral-300 mb-1"><strong>Ventana de contexto</strong> es la "memoria de trabajo" del modelo en una conversación: todo lo que puede ver de una vez. Es finita: cuando se llena, se pierde lo que estaba al principio.</p>
+<p class="text-sm text-neutral-300"><strong>Estado externalizado</strong> es guardar el progreso FUERA del modelo —en archivos y commits en el disco— para que una nueva sesión pueda volver a leer lo que ya se hizo, incluso después de que terminó la ventana anterior.</p>
+</aside>
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Tres sesiones en secuencia, cada una lee el estado del disco, da un paso y lo guarda de nuevo" class="w-full h-auto" role="img" viewbox="0 0 1000 230">
+<defs>
+<lineargradient id="m41d-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="m41d-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="m41d-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.11" r="1.3"></circle></pattern>
+<marker id="m41d-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+</defs>
+<rect fill="url(#m41d-grid)" height="230" width="1000" x="0" y="0"></rect>
+<g filter="url(#m41d-glow)"><rect fill="#1f1604" height="46" rx="12" stroke="url(#m41d-grad)" stroke-width="2.5" width="340" x="330" y="20"></rect></g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="500" y="42">ESTADO EN DISCO</text>
+<text fill="#cbd5e1" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="58">git + PROGRESS.md</text>
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<rect fill="#0e1b26" height="52" rx="11" stroke="#38bdf8" stroke-width="2" width="240" x="60" y="140"></rect><text fill="#bfe6ff" text-anchor="middle" x="180" y="163">sesión 1</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="180" y="180">lee · 1 feature · hace commit</text>
+<rect fill="#0e1b26" height="52" rx="11" stroke="#38bdf8" stroke-width="2" width="240" x="380" y="140"></rect><text fill="#bfe6ff" text-anchor="middle" x="500" y="163">sesión 2</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="500" y="180">lee · 1 feature · hace commit</text>
+<rect fill="#0e1b26" height="52" rx="11" stroke="#38bdf8" stroke-width="2" width="240" x="700" y="140"></rect><text fill="#bfe6ff" text-anchor="middle" x="820" y="163">sesión 3</text><text fill="#9ad6ff" font-size="10" font-weight="400" text-anchor="middle" x="820" y="180">lee · 1 feature · hace commit</text>
+</g>
+<g fill="none" opacity="0.8" stroke="#fbbf24" stroke-width="2">
+<path d="M400,66 C360,90 240,110 180,138" marker-end="url(#m41d-ah)"></path>
+<path d="M180,140 C220,110 440,86 498,68" marker-end="url(#m41d-ah)"></path>
+<path d="M540,66 C520,100 510,110 500,138" marker-end="url(#m41d-ah)"></path>
+<path d="M500,140 C540,110 760,86 818,68" marker-end="url(#m41d-ah)"></path>
+<path d="M620,66 C700,98 780,112 820,138" marker-end="url(#m41d-ah)"></path>
+</g>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="500" y="216">cada sesión empieza leyendo el disco y termina dejándolo limpio para la siguiente</text>
+</svg>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">El loop de cada sesión:</strong> lee el estado → avanza de forma incremental en UNA feature → se verifica → hace commit → deja el repositorio limpio. La siguiente sesión retoma desde donde terminó la anterior, aunque la ventana de contexto se haya reiniciado.</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">🧠</span> La regla de oro</h3>
+<p class="text-neutral-300">Una funcionalidad por sesión, siempre con commit y dejando todo limpio. Esto transforma un problema enorme (que no cabe en una ventana) en una fila de problemas pequeños (cada uno sí cabe). El disco se convierte en la memoria a largo plazo que el modelo no tiene.</p>
+</div>
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 mb-3">
+<p class="text-sm text-amber-400 font-semibold mb-1">Objetivo del prompt de abajo</p>
+<p class="text-sm text-neutral-300">Darle al agente el protocolo de estado externalizado: leer el disco, avanzar UNA feature, autoverificar, hacer commit y dejar todo limpio, para que la siguiente sesión pueda empezar por sí sola incluso después de que se agote la ventana de contexto.</p>
+</div>
+<div class="code-box mb-3">
+<pre><code># Cole no Claude Code, na raiz do projeto (mantenha um PROGRESS.md no repo)
+
+A cada sessão, siga ESTE protocolo, nesta ordem:
+1. Leia PROGRESS.md e o git log para entender o que já foi feito.
+2. Escolha UMA única feature pendente — a próxima da lista.
+3. Implemente só essa feature. Não comece outra.
+4. Autoverifique: rode os testes e confirme que passam.
+5. Commite com uma mensagem clara e atualize PROGRESS.md (marque feita).
+6. Deixe o repositório limpo (git status sem pendências) e pare.
+
+Objetivo final: <descreva "tudo="" aqui="" o="" pronto"="" que="" é="">.</descreva></code></pre>
+</div>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">Cómo verificar:</strong> ejecuta el prompt, cierra la sesión y abre una NUEVA desde cero con el mismo prompt. Si la segunda sesión sabe exactamente dónde se detuvo la primera (leyendo <code>PROGRESS.md</code> + git log) y seguir con la siguiente función, el estado está realmente externalizado. Si vuelve a empezar de cero o repite el trabajo, no se está siguiendo el protocolo.</p>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-16" data-inema-topic="modulo-4-1#topico-6" id="topico-6">
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex items-center space-x-4">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
+<h2 class="text-2xl font-bold">🧭 No es para todo el mundo</h2>
+</div>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-1-t6-p1">Hora de una dosis de realidad. Nate Herk hace la salvedad más útil del recorrido: que <strong class="text-amber-400">Steinberger</strong> — un coder hardcore que trabaja todo el día con agentes: haz ingeniería de loops <strong>no significa que esto se aplique a ti</strong>. La herramienta adecuada depende de tu caso.</p>
+<div class="overflow-x-auto mb-6">
+<table class="w-full text-sm border border-dark-600 rounded-xl overflow-hidden">
+<thead class="bg-dark-700/60 text-neutral-300">
+<tr><th class="text-left p-3 font-semibold">Tipo de bucle</th><th class="text-left p-3 font-semibold">Qué lo activa</th><th class="text-left p-3 font-semibold">Para quién</th></tr>
+</thead>
+<tbody class="divide-y divide-dark-600 text-neutral-300">
+<tr><td class="p-3 font-medium text-amber-400">Por cadencia</td><td class="p-3">un reloj: se ejecuta cada X (hora, día)</td><td class="p-3">tareas recurrentes predecibles</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">Por evento</td><td class="p-3">ocurre algo: un PR, un ticket, un webhook</td><td class="p-3">responder al flujo de trabajo</td></tr>
+<tr><td class="p-3 font-medium text-amber-400">24/7 (siempre activo)</td><td class="p-3">nunca se detiene: una flota funcionando todo el tiempo</td><td class="p-3">pocos casos de alto volumen</td></tr>
+</tbody>
+</table>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-2 flex items-center"><span class="mr-2">🚨</span> El error de estado</h3>
+<p class="text-neutral-300">No todos necesitan 24/7. Mantener una flota funcionando todo el tiempo «porque es lo que hacen los hardcore» es un error de estatus, no de ingeniería. La mayoría de los casos se resuelve con un loop por cadencia o por evento, y la 4.3 mostrará el costo de elegir mal.</p>
+</div>
+<div class="bg-gradient-to-br from-amber-900/30 to-dark-800 rounded-xl border border-amber-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center"><span class="mr-2">📒</span> Glosario de esta sección (llévalo al resto del recorrido)</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-0.5">•</span><span><strong>Ingeniería de Loops</strong> — diseñar el loop en vez de operar el agente a mano.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-0.5">•</span><span><strong>Meta-agente</strong> — agente que diseña loops/agentes en vez de realizar la tarea final.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-0.5">•</span><span><strong>Objetivo recursivo</strong> — un objetivo que la IA persigue iterando hasta que la verificación se aprueba.</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400 mt-0.5">•</span><span><strong>Estado externalizado</strong> — progreso guardado en git + archivos, fuera de la ventana del modelo.</span></li>
+</ul>
+</div>
+<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-1#q1">
+<p class="font-medium mb-4">Viste a un coder famoso ejecutar flotas de agentes 24/7. ¿Qué hacer con eso?</p>
+<div class="inema-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">Montar una flota 24/7 también: es lo que hacen los pros.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Elegir la cadencia (evento / programado / 24-7) que se ajusta a MI caso.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Concluir que los loops no sirven para mí.</button>
+</div>
+<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+</div>
+<div class="flex justify-start mt-6">
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+</div>
+</section>
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">El cambio</strong><span class="text-neutral-400"> — diseña loops que le den prompts al agente, en vez de darle prompts al agente.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">El humano como arquitecto</strong><span class="text-neutral-400"> — loop engineering: diseñas el sistema, no escribes la iteración.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">El metaagente</strong><span class="text-neutral-400"> — un agente que infiere y escribe los loops; seductor y arriesgado.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Loop = objetivo recursivo</strong><span class="text-neutral-400"> — dos pilares: el objetivo y la verificación.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">Estado externalizado</strong><span class="text-neutral-400"> — git + archivos para pasar de una ventana de contexto a otra; 1 feature por sesión.</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-amber-400 mt-1">✓</span><div><strong class="text-white">No es para todo el mundo</strong><span class="text-neutral-400"> — cadencia / evento / 24-7; usa la herramienta adecuada para tu caso.</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Siguiente:</h3>
+<p class="text-neutral-300">4.2 — Patrones avanzados (Ralph loop, flotas, guardrails, verificación adversarial)</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-2.html">4.2 →</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Loop Agentes v2 — Ingeniería de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+  </script>
+<script src="../../../assets/learn.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-4-1#q1',{answer:1,explain:{0:"Cuidado — copiar a frota 24/7 por status é o erro que o Nate alerta.",1:"Isso: escolha a cadência que cabe no seu caso; não 24/7 por imitação.",2:"Não — loops servem, mas na forma certa para você (cadência ou evento)."}});}});</script>
+</body>
+</html>
