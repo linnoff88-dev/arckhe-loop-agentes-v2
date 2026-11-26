@@ -4,28 +4,28 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="loopv2" name="inema-course"/>
+<meta content="loopv2" name="ARCKHÉ-course"/>
 <title>3.4 Los 8 errores comunes | Loop Agentes v2</title>
 <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
       var s = html.style, scale=(+p.fontScale||100);
-      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
       s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
     } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
   })();
@@ -36,7 +36,7 @@
   </script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="../../../assets/learn.css" rel="stylesheet"/>
-<script data-inema-manifest="" type="application/json">
+<script data-ARCKHÉ-manifest="" type="application/json">
 {
   "course": "loopv2",
   "tracks": [
@@ -129,8 +129,8 @@
       .wf-flow { stroke-dasharray:7 7; animation: wf-dash 1.1s linear infinite; }
     }
   </style>
-<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha3/modulo-3-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha3/modulo-3-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha3/modulo-3-4.html" hreflang="es" rel="alternate"/></head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/modulo-3-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha3/modulo-3-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-3-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<link href="https://linnoff88-dev.github.io/arckhe-/curso/trilha3/modulo-3-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://linnoff88-dev.github.io/arckhe-/en/curso/trilha3/modulo-3-4.html" hreflang="en" rel="alternate"/><link href="https://linnoff88-dev.github.io/arckhe-/es/curso/trilha3/modulo-3-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="ARCKHÉ-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/modulo-3-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha3/modulo-3-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-3-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
 <a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-purple-400 focus:rounded-lg" href="#conteudo">Saltar al contenido</a>
 <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -138,14 +138,14 @@
 <div class="flex items-center space-x-4">
 <a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Loop Agentes v2</span></a>
 <span class="text-neutral-600">|</span>
-<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://ARCKHÉ AI" target="_blank">ARCKHÉ AI</a>
 </div>
 <div class="flex items-center space-x-1 sm:space-x-2">
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Cuándo usar</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Práctica</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../../curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Ingeniería de Loops</span></a>
-<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Mi recorrido</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-ARCKHÉ-journey-open="" type="button"><span aria-hidden="true">◷</span><span>Mi recorrido</span><span aria-hidden="true" class="ARCKHÉ-journey-badge hidden"></span></button>
 <button aria-label="Cambiar tema" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
 <svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
 <svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
@@ -173,45 +173,45 @@
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Trampas</div><div class="text-xs text-neutral-400">Tipo</div></div>
 </div>
 <div class="mt-6 max-w-2xl">
-<div aria-label="Progreso del módulo 3.4" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:3-4" role="progressbar">
+<div aria-label="Progreso del módulo 3.4" aria-valuemax="100" aria-valuemin="0" class="ARCKHÉ-meter flex items-center gap-3" data-ARCKHÉ-meter="modulo:3-4" role="progressbar">
 <span class="text-sm text-neutral-400">Progreso:</span>
-<span class="inema-meter-pct text-purple-400 font-bold text-sm">0%</span>
-<span class="inema-meter-count text-xs text-neutral-500">0 de 8</span>
+<span class="ARCKHÉ-meter-pct text-purple-400 font-bold text-sm">0%</span>
+<span class="ARCKHÉ-meter-count text-xs text-neutral-500">0 de 8</span>
 </div>
 </div>
 </div>
 </header>
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
-<nav aria-label="Índice de la página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
-<p class="text-sm text-neutral-400 mb-3">Sección <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">8</span></p>
+<nav aria-label="Índice de la página" class="hidden lg:block sticky top-24 self-start" data-ARCKHÉ-toc="">
+<p class="text-sm text-neutral-400 mb-3">Sección <span class="ARCKHÉ-toc-pos">1</span> de <span class="ARCKHÉ-toc-total">8</span></p>
 <ul class="space-y-1 text-sm">
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-1">1. Sin paso de verificación</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-2">2. Objetivo vago</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-3">3. Sin condición de parada</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-4">4. Hacer demasiado en cada vuelta</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-5">5. Herramientas peligrosas desde el inicio</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-6">6. No guardar el estado</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-7">7. Los 2 sentidos de «loop»</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-8">8. Rendición cognitiva</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-1">1. Sin paso de verificación</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-2">2. Objetivo vago</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-3">3. Sin condición de parada</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-4">4. Hacer demasiado en cada vuelta</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-5">5. Herramientas peligrosas desde el inicio</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-6">6. No guardar el estado</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-7">7. Los 2 sentidos de «loop»</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-8">8. Rendición cognitiva</a></li>
 </ul>
 </nav>
-<main class="inema-prose min-w-0" id="conteudo">
+<main class="ARCKHÉ-prose min-w-0" id="conteudo">
 <section class="mb-12">
 <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 overflow-hidden">
 <img alt="Panel con señales de alerta de un loop mal armado: flechas que giran sin fin, un objetivo desvanecido, un freno roto" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t3-mistakes.png"/>
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">Qué ver:</strong> las señales de alerta de un loop mal armado. Cada luz roja aquí corresponde a uno de los ocho errores de abajo, y cada uno tiene una corrección sencilla. Lee este módulo como una lista de «qué no hacer».</p>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-1" id="topico-1">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-1" id="topico-1">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
 <h2 class="text-2xl font-bold">❌ Sin paso de verificación</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t1-p1">El error número uno, con diferencia: el agente <strong class="text-purple-400">actúa y nunca verifica</strong>. Edita, declara "listo" y sigue adelante, entregando trabajo roto con toda la confianza del mundo. Anthropic llama "verifica tu trabajo" al paso <strong class="text-purple-400">más subestimado</strong> de todos.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t1-p1">El error número uno, con diferencia: el agente <strong class="text-purple-400">actúa y nunca verifica</strong>. Edita, declara "listo" y sigue adelante, entregando trabajo roto con toda la confianza del mundo. Anthropic llama "verifica tu trabajo" al paso <strong class="text-purple-400">más subestimado</strong> de todos.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
 <h4 class="font-bold text-red-400 mb-2">✗ El error</h4>
@@ -227,18 +227,18 @@
 <p class="text-neutral-300">Casi todos los otros siete errores empeoran cuando falta verificación. Un objetivo vago duele menos si lo revisas; un loop sin parada es menos peligroso si detecta que terminó. La verificación es el sentido <em>observa</em> del bucle — quítala y el agente queda ciego.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-2" id="topico-2">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-2" id="topico-2">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
 <h2 class="text-2xl font-bold">🌫️ Objetivo vago</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t2-p1">«Mejora el código». «Déjalo bien». Un objetivo vago no le da al loop ningún <strong class="text-purple-400">estado final</strong> — no hay una línea de llegada que se pueda comprobar. Sin saber cuándo se detuvo, el loop <strong class="text-purple-400">divaga</strong>: cambia cosas, las deshace, vuelve a cambiarlas, sin converger nunca.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t2-p1">«Mejora el código». «Déjalo bien». Un objetivo vago no le da al loop ningún <strong class="text-purple-400">estado final</strong> — no hay una línea de llegada que se pueda comprobar. Sin saber cuándo se detuvo, el loop <strong class="text-purple-400">divaga</strong>: cambia cosas, las deshace, vuelve a cambiarlas, sin converger nunca.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Nuevo aquí? "done-state"</p>
 <p class="text-sm text-neutral-300"><strong>Estado final</strong> (estado de "listo") es la condición que, cuando se cumple, le dice al loop "terminaste, puedes parar". Algo más que tu opinión debe poder verificarlo: una prueba que pasa, un número de palabras, un build que compila. "Bueno" no es un estado de finalización; "todas las pruebas pasan" sí lo es.</p>
@@ -262,18 +262,18 @@
 </div>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-3" id="topico-3">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-3" id="topico-3">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
 <h2 class="text-2xl font-bold">♾️ Sin condición de parada</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t3-p1">El principiante supone que <strong class="text-purple-400">el modelo se detiene por sí solo</strong>. No se detiene. Muchos loops populares, como el <strong class="text-purple-400">Ralph</strong> — ni siquiera tienen parada del lado del modelo: se ejecutan hasta que alguien aprieta el botón. Sin un hard stop, obtienes un comportamiento extraño o una cuenta de tokens absurda.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t3-p1">El principiante supone que <strong class="text-purple-400">el modelo se detiene por sí solo</strong>. No se detiene. Muchos loops populares, como el <strong class="text-purple-400">Ralph</strong> — ni siquiera tienen parada del lado del modelo: se ejecutan hasta que alguien aprieta el botón. Sin un hard stop, obtienes un comportamiento extraño o una cuenta de tokens absurda.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Eres nuevo aquí? «Ralph»</p>
 <p class="text-sm text-neutral-300"><strong>Ralph</strong> es un patrón de loop conocido en el que se vuelve a enviar el mismo prompt al agente una y otra vez, sin que el modelo decida detenerse; la detención solo viene desde fuera (un límite de intentos o que tú lo cierres). Es ideal para ilustrar el punto: el loop no tiene freno incorporado; tú tienes que ponerlo.</p>
@@ -304,28 +304,28 @@
 </svg>
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">Lee el diagrama:</strong> a la izquierda, sin detenerse, el loop gira para siempre y quema tokens. A la derecha, el hard stop ("detente cuando pasen las pruebas o después de 10 intentos") garantiza una salida. Pon siempre un límite y observa en vivo la primera ejecución.</p>
 </div>
-<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-3-4#q1">
+<div class="ARCKHÉ-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-ARCKHÉ-check="modulo-3-4#q1">
 <p class="font-medium mb-4">¿Quién es responsable de detener el loop?</p>
-<div class="inema-check-options space-y-2">
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">El modelo: se da cuenta por sí solo de que terminó y finaliza.</button>
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">Tú — poniendo un hard stop (objetivo cumplido o máximo de intentos).</button>
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">Nadie: los buenos loops se ejecutan indefinidamente a propósito.</button>
+<div class="ARCKHÉ-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="0" type="button">El modelo: se da cuenta por sí solo de que terminó y finaliza.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="1" type="button">Tú — poniendo un hard stop (objetivo cumplido o máximo de intentos).</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="2" type="button">Nadie: los buenos loops se ejecutan indefinidamente a propósito.</button>
 </div>
-<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+<div aria-live="polite" class="mt-4 text-sm" data-ARCKHÉ-check-feedback="" role="status"></div>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-4" id="topico-4">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-4" id="topico-4">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
 <h2 class="text-2xl font-bold">🐘 Hacer demasiado por vuelta</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t4-p1">«Corrige todo de una vez». Es tentador, y hace que el loop se <strong class="text-purple-400">debatir</strong>. Anthropic fue explícita: trabajar en <strong class="text-purple-400">una feature a la vez</strong> fue fundamental para que los agentes de larga duración convergieran. Un cambio por vuelta le da al checker algo pequeño y claro para evaluar.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t4-p1">«Corrige todo de una vez». Es tentador, y hace que el loop se <strong class="text-purple-400">debatir</strong>. Anthropic fue explícita: trabajar en <strong class="text-purple-400">una feature a la vez</strong> fue fundamental para que los agentes de larga duración convergieran. Un cambio por vuelta le da al checker algo pequeño y claro para evaluar.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
 <h4 class="font-bold text-red-400 mb-2">✗ El error</h4>
@@ -341,18 +341,18 @@
 <p class="text-neutral-300">Cuando cada vuelta cambia una sola cosa, la verificación aísla exactamente el efecto de ese cambio. El loop obtiene una señal clara: ¿mejoró o empeoró? Con diez cambios simultáneos, la señal se convierte en ruido y el loop pierde el rumbo.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-5" id="topico-5">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-5" id="topico-5">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
 <h2 class="text-2xl font-bold">⚠️ Herramientas peligrosas demasiado pronto</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t5-p1">Dejar el <strong class="text-purple-400">primero</strong> que el loop haga merge, deploy o delete es una receta para un desastre irreversible. Al principio, el loop todavía comete errores, y un error con permisos de producción cuesta caro. <strong class="text-purple-400">Define el alcance de los permisos</strong>: el agente abre un PR y tú lo fusionas.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t5-p1">Dejar el <strong class="text-purple-400">primero</strong> que el loop haga merge, deploy o delete es una receta para un desastre irreversible. Al principio, el loop todavía comete errores, y un error con permisos de producción cuesta caro. <strong class="text-purple-400">Define el alcance de los permisos</strong>: el agente abre un PR y tú lo fusionas.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Eres nuevo aquí? «PR» y «permisos»</p>
 <p class="text-sm text-neutral-300 mb-1"><strong>PR (pull request)</strong> es una propuesta de cambio que espera a que alguien la apruebe antes de incorporarla al código de verdad. El agente la prepara; una persona la revisa y la aprueba.</p>
@@ -369,18 +369,18 @@
 </div>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-6" id="topico-6">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-6" id="topico-6">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
 <h2 class="text-2xl font-bold">💾 No guardar el estado</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t6-p1">Un loop que funciona más allá de una <strong class="text-purple-400">ventana de contexto</strong> y no escribió nada en disco <strong class="text-purple-400">olvida lo que ya intentó</strong> — y repite los mismos callejones sin salida. La solución es sencilla: un archivo de progreso (PROGRESS.md) y commits frecuentes.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t6-p1">Un loop que funciona más allá de una <strong class="text-purple-400">ventana de contexto</strong> y no escribió nada en disco <strong class="text-purple-400">olvida lo que ya intentó</strong> — y repite los mismos callejones sin salida. La solución es sencilla: un archivo de progreso (PROGRESS.md) y commits frecuentes.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Eres nuevo aquí? «context window»</p>
 <p class="text-sm text-neutral-300"><strong>Ventana de contexto</strong> es el tamaño máximo de lo que el modelo puede "tener en la cabeza" a la vez: tu pedido, el historial y los últimos resultados. Cuando una tarea es demasiado larga para caber, el comienzo "sale por la ventana" y desaparece; por eso el estado debe estar en disco, no solo en la memoria del modelo.</p>
@@ -396,18 +396,18 @@
 </div>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-7" id="topico-7">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-7" id="topico-7">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">7</span>
 <h2 class="text-2xl font-bold">🔀 Confundir los 2 sentidos de "loop"</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t7-p1">La palabra "loop" tiene <strong class="text-purple-400">dos sentidos</strong> que se reemplazan constantemente. Uno es el <em>loop de agente</em> (la cognición reason→act→observe). El otro es <strong class="text-purple-400">human-in-the-loop (HITL)</strong>: puertas que una persona debe aprobar antes de que el agente continúe. Son cosas distintas, y copiar una guía de HITL pensando que es un patrón de build te deja perdido.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t7-p1">La palabra "loop" tiene <strong class="text-purple-400">dos sentidos</strong> que se reemplazan constantemente. Uno es el <em>loop de agente</em> (la cognición reason→act→observe). El otro es <strong class="text-purple-400">human-in-the-loop (HITL)</strong>: puertas que una persona debe aprobar antes de que el agente continúe. Son cosas distintas, y copiar una guía de HITL pensando que es un patrón de build te deja perdido.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Eres nuevo aquí? «HITL (human-in-the-loop)»</p>
 <p class="text-sm text-neutral-300"><strong>Human-in-the-loop</strong> es un punto de control donde la automatización <em>pausa y pide aprobación humana</em> antes de continuar, piensa en un «OK, ¿puedo enviarlo?» en medio de un flujo. Es <strong>supervisión</strong>, no la cognición del agente. Zapier, LangChain y Microsoft usan "loop" en este sentido de aprobación; ninguno de ellos describe el loop reason→act→observe.</p>
@@ -427,18 +427,18 @@
 <p class="text-neutral-300">Buscas "cómo construir un loop de agente", llegas a un tutorial de HITL lleno de la palabra "loop" y terminas con un flujo de aprobación, no con la cognición que querías. Comprueba siempre: la guía describe <em>cómo piensa el agente</em> (build) o <em>cuando la persona aprueba</em> (¿supervisión)?</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-3-4#topico-8" id="topico-8">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-3-4#topico-8" id="topico-8">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">8</span>
 <h2 class="text-2xl font-bold">🛋️ Rendición cognitiva</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Marcar una duda en este tema" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tengo una duda</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-4-t8-p1">El último error es el más sutil. Addy Osmani lo llama <strong class="text-purple-400">rendición cognitiva</strong>: entregar el control total al loop y <strong class="text-purple-400">dejar de leer la salida</strong>. El loop es bueno, pero tú sigues siendo quien revisa, sobre todo al principio. La confianza ciega es la forma en que un bug llega a producción con una sonrisa.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-4-t8-p1">El último error es el más sutil. Addy Osmani lo llama <strong class="text-purple-400">rendición cognitiva</strong>: entregar el control total al loop y <strong class="text-purple-400">dejar de leer la salida</strong>. El loop es bueno, pero tú sigues siendo quien revisa, sobre todo al principio. La confianza ciega es la forma en que un bug llega a producción con una sonrisa.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 ¿Eres nuevo aquí? «cognitive surrender»</p>
 <p class="text-sm text-neutral-300"><strong>Cognitive surrender</strong> (rendición cognitiva) ocurre cuando dejas de pensar junto con la herramienta: aceptas todo lo que produce sin revisarlo, porque "parece saber lo que hace". El peligro no es que el loop sea malo, sino que dejes de ser el filtro que detecta los errores que el loop no detecta.</p>
@@ -458,7 +458,7 @@
 <p class="text-neutral-300">Un loop bien armado <em>aumenta</em> tu alcance; no sustituye tu criterio. El objetivo es delegar la ejecución repetitiva, manteniéndote como la persona revisora que define «listo» y echa un vistazo al resultado. La ingeniería de loops es exactamente esto: diseñar el sistema, no renunciar a él.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como leído</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Marcar como leído</span></button>
 </div>
 </section>
 <section class="mb-12">
@@ -489,17 +489,17 @@
 </div>
 <footer class="border-t border-dark-600 py-8 mt-16">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-<p>Loop Agentes v2 — Ingeniería de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Loop Agentes v2 — Ingeniería de Loops · <a class="text-sky-400 hover:text-sky-300" href="https://ARCKHÉ AI" target="_blank">ARCKHÉ AI</a></p>
 </div>
 </footer>
 <script>
     function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
-    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('ARCKHÉ.prefs')||'{}');p.theme=d?'ARCKHÉ-dark':'claro';localStorage.setItem('ARCKHÉ.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
     function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
     function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
   </script>
 <script src="../../../assets/learn.js"></script>
-<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-3-4#q1',{answer:1,explain:{0:"Nêo — o modelo nêo percebe que terminou sozinho; muitos loops nem têm parada do lado do modelo.",1:"Isso: a parada é responsabilidade sua — objetivo cumprido ou um teto de tentativas.",2:"Nêo — rodar indefinidamente queima tokens e gera comportamento estranho; sempre ponha um hard stop."}});}});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.ARCKHÉ&&ARCKHÉ.init)ARCKHÉ.init();if(window.ARCKHÉ&&ARCKHÉ.registerCheck){ARCKHÉ.registerCheck('modulo-3-4#q1',{answer:1,explain:{0:"Nêo — o modelo nêo percebe que terminou sozinho; muitos loops nem têm parada do lado do modelo.",1:"Isso: a parada é responsabilidade sua — objetivo cumprido ou um teto de tentativas.",2:"Nêo — rodar indefinidamente queima tokens e gera comportamento estranho; sempre ponha um hard stop."}});}});</script>
 </body>
 </html>

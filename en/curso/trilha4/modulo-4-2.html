@@ -4,28 +4,28 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="loopv2" name="inema-course"/>
+<meta content="loopv2" name="ARCKHÉ-course"/>
 <title>4.2 Advanced patterns | Loop Agentes v2</title>
 <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'},'claro':{dark:false,attr:null,cs:'light'},'sepia':{dark:false,attr:'sepia',cs:'light'},'foco':{dark:null,attr:'foco',cs:null},'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
       var s = html.style, scale=(+p.fontScale||100);
-      s.setProperty('--inema-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale',(scale/100).toString()); s.setProperty('font-size',scale+'%');
       s.setProperty('--measure',(+p.lineWidth||68)+'ch'); s.setProperty('--lh-body',(+p.leading||1.7).toString());
     } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
   })();
@@ -36,7 +36,7 @@
   </script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="../../../assets/learn.css" rel="stylesheet"/>
-<script data-inema-manifest="" type="application/json">
+<script data-ARCKHÉ-manifest="" type="application/json">
 {
   "course": "loopv2",
   "tracks": [
@@ -123,8 +123,8 @@
       .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
     }
   </style>
-<link href="https://inematds.github.io/loop-agentes-v2/curso/trilha4/modulo-4-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/en/curso/trilha4/modulo-4-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/loop-agentes-v2/es/curso/trilha4/modulo-4-2.html" hreflang="es" rel="alternate"/></head>
-<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-4-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha4/modulo-4-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<link href="https://linnoff88-dev.github.io/arckhe-/curso/trilha4/modulo-4-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://linnoff88-dev.github.io/arckhe-/en/curso/trilha4/modulo-4-2.html" hreflang="en" rel="alternate"/><link href="https://linnoff88-dev.github.io/arckhe-/es/curso/trilha4/modulo-4-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="ARCKHÉ-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-4-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha4/modulo-4-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
 <a class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-dark-800 focus:text-amber-400 focus:rounded-lg" href="#conteudo">Skip to content</a>
 <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -132,14 +132,14 @@
 <div class="flex items-center space-x-4">
 <a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html"><span class="text-2xl">🔁</span><span class="font-bold text-lg hidden sm:inline">Agent Loops v2</span></a>
 <span class="text-neutral-600">|</span>
-<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://ARCKHÉ AI" target="_blank">ARCKHÉ AI</a>
 </div>
 <div class="flex items-center space-x-1 sm:space-x-2">
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../../curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../../curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">When to use</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../../curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Practice</span></a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Loop Engineering</span></a>
-<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-inema-journey-open="" type="button"><span aria-hidden="true">◷</span><span>My journey</span><span aria-hidden="true" class="inema-journey-badge hidden"></span></button>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors ml-1" data-ARCKHÉ-journey-open="" type="button"><span aria-hidden="true">◷</span><span>My journey</span><span aria-hidden="true" class="ARCKHÉ-journey-badge hidden"></span></button>
 <button aria-label="Switch theme" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1" id="theme-toggle">
 <svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
 <svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
@@ -167,38 +167,38 @@
 <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-amber-400">Patterns</div><div class="text-xs text-neutral-400">Type</div></div>
 </div>
 <div class="mt-6 max-w-2xl">
-<div aria-label="Module 4.2 progress" aria-valuemax="100" aria-valuemin="0" class="inema-meter flex items-center gap-3" data-inema-meter="modulo:4-2" role="progressbar">
+<div aria-label="Module 4.2 progress" aria-valuemax="100" aria-valuemin="0" class="ARCKHÉ-meter flex items-center gap-3" data-ARCKHÉ-meter="modulo:4-2" role="progressbar">
 <span class="text-sm text-neutral-400">Progress:</span>
-<span class="inema-meter-pct text-amber-400 font-bold text-sm">0%</span>
-<span class="inema-meter-count text-xs text-neutral-500">0 of 7</span>
+<span class="ARCKHÉ-meter-pct text-amber-400 font-bold text-sm">0%</span>
+<span class="ARCKHÉ-meter-count text-xs text-neutral-500">0 of 7</span>
 </div>
 </div>
 </div>
 </header>
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
-<nav aria-label="Page index" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
-<p class="text-sm text-neutral-400 mb-3">Section <span class="inema-toc-pos">1</span> of <span class="inema-toc-total">7</span></p>
+<nav aria-label="Page index" class="hidden lg:block sticky top-24 self-start" data-ARCKHÉ-toc="">
+<p class="text-sm text-neutral-400 mb-3">Section <span class="ARCKHÉ-toc-pos">1</span> of <span class="ARCKHÉ-toc-total">7</span></p>
 <ul class="space-y-1 text-sm">
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-1">1. Ralph loop</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-2">2. Scheduled loops</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-3">3. Worktrees &amp; sandboxes</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-4">4. Guardrails</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-5">5. Adversarial maker/checker</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-6">6. Fan-out / orchestration</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-7">7. Cross-trial memory</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-1">1. Ralph loop</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-2">2. Scheduled loops</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-3">3. Worktrees &amp; sandboxes</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-4">4. Guardrails</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-5">5. Adversarial maker/checker</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-6">6. Fan-out / orchestration</a></li>
+<li><a class="ARCKHÉ-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10" href="#topico-7">7. Cross-trial memory</a></li>
 </ul>
 </nav>
-<main class="inema-prose min-w-0" id="conteudo">
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-1" id="topico-1">
+<main class="ARCKHÉ-prose min-w-0" id="conteudo">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-1" id="topico-1">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">1</span>
 <h2 class="text-2xl font-bold">🐚 Ralph loop</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t1-p1">The roughest and most famous pattern in the house: the <strong class="text-amber-400">Ralph loop</strong> (Geoffrey Huntley / HumanLayer). It’s an infinite shell loop that repeats the SAME prompt endlessly. Each pass mutates the code—and that mutated code becomes the starting state for the next pass.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t1-p1">The roughest and most famous pattern in the house: the <strong class="text-amber-400">Ralph loop</strong> (Geoffrey Huntley / HumanLayer). It’s an infinite shell loop that repeats the SAME prompt endlessly. Each pass mutates the code—and that mutated code becomes the starting state for the next pass.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? “Ralph loop”</p>
 <p class="text-sm text-neutral-300"><strong>Ralph loop</strong> is the technique of running the same prompt in an infinite terminal loop, letting the agent reopen the task from scratch each turn. Because the code changes with every iteration, the agent never sees the same starting point twice — it “scales” the problem on its own, repetition after repetition. The name is an inside joke; the technique is real and surprisingly effective for certain kinds of work.</p>
@@ -219,18 +219,18 @@ while :; do cat PROMPT.md | npx --yes @sourcegraph/amp ; done</code></pre>
 </div>
 <p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">How to verify / when to use:</strong> run it in a disposable repository (preferably in an isolated worktree — topic 3) with a <code>git status</code> open in another tab: you'll see commits/changes appear on each turn. Use it for large, repetitive tasks with built-in verification; <strong>stop early</strong> — Huntley warns that running too long produces "bizarre emergent behavior." The infinite loop is powerful and dangerous in equal measure: ALWAYS pair it with guardrails (topic 4).</p>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-2" id="topico-2">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-2" id="topico-2">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">2</span>
 <h2 class="text-2xl font-bold">⏰ Scheduled loops</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t2-p1">Owain Lewis (as reported) describes the “fleet” approach: <strong class="text-amber-400">a loop is a job the agent repeats</strong> — wakes up on a schedule or event, reads the state of the work, does ONE scoped job within fixed permissions, writes the result, sleeps, and repeats. It’s the opposite of Ralph: disciplined, small, controlled.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t2-p1">Owain Lewis (as reported) describes the “fleet” approach: <strong class="text-amber-400">a loop is a job the agent repeats</strong> — wakes up on a schedule or event, reads the state of the work, does ONE scoped job within fixed permissions, writes the result, sleeps, and repeats. It’s the opposite of Ralph: disciplined, small, controlled.</p>
 <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
 <img alt="A fleet of small agents working side by side on a dashboard, each with its own lane of work, running all day" class="w-full h-auto rounded-xl" loading="lazy" src="../../../assets/img/t4-fleet.png"/>
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">What to look at:</strong> it's not a genius agent doing everything—it's a fleet of small agents, each with a narrow job and fixed permissions. Coordination is external (the control plane), not in any agent's head.</p>
@@ -272,18 +272,18 @@ while :; do cat PROMPT.md | npx --yes @sourcegraph/amp ; done</code></pre>
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Read the flow:</strong> GitHub Issues are the control plane — the shared work queue. The manager triages, the worker implements and opens a PR, and the last gate (the merge) is always human. No agent closes the loop alone.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-3" id="topico-3">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-3" id="topico-3">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">3</span>
 <h2 class="text-2xl font-bold">🌲 Worktrees, sandboxes, and fixed permissions</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t3-p1">To run several agents in parallel without them stepping on each other's toes—and without any of them doing something irreversible—you need <strong class="text-amber-400">isolation</strong>. Three pieces: worktrees, sandboxes, and fixed permissions.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t3-p1">To run several agents in parallel without them stepping on each other's toes—and without any of them doing something irreversible—you need <strong class="text-amber-400">isolation</strong>. Three pieces: worktrees, sandboxes, and fixed permissions.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? "worktree" and "sandbox"</p>
 <p class="text-sm text-neutral-300 mb-1"><strong>Worktree</strong> (git worktree) is a separate working copy of the same repository, in another folder and on another branch. Two agents in two worktrees can work on the same project without colliding—each in its own tree.</p>
@@ -299,18 +299,18 @@ while :; do cat PROMPT.md | npx --yes @sourcegraph/amp ; done</code></pre>
 <p class="text-neutral-300">Fixed permissions are the autonomous loop's seat belt. You decide BEFOREHAND what the agent can touch (these files, these commands) and what's forbidden (prod, secrets, <code>git push --force</code>). Since nobody is watching every pass, the limit has to be in the environment, not in your attention.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-4" id="topico-4">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-4" id="topico-4">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">4</span>
 <h2 class="text-2xl font-bold">🛡️ Guardrails = the real work</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t4-p1">The grassroots community consensus is direct: <strong class="text-amber-400">"the guardrails are the real work, not the agents."</strong> The agent is the easy part. The hard part—and what separates a safe system from a disaster—is designing the boundaries. The worker opens a PR, but never merges it; a human approves it.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t4-p1">The grassroots community consensus is direct: <strong class="text-amber-400">"the guardrails are the real work, not the agents."</strong> The agent is the easy part. The hard part—and what separates a safe system from a disaster—is designing the boundaries. The worker opens a PR, but never merges it; a human approves it.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? "guardrails"</p>
 <p class="text-sm text-neutral-300"><strong>Guardrails</strong> (guardrails) are the rules and limits that surround what an agent can do: what it CANNOT touch, where it needs to stop and ask for approval, and what final gate only a human can open. They aren't what the agent does—they're the safe boundary within which it does it.</p>
@@ -333,18 +333,18 @@ REGRAS (nêo negociáveis):
 </div>
 <p class="text-sm text-neutral-400 mb-6"><strong class="text-amber-400">How to verify:</strong> run the worker in a test worktree and check the result against every line — opened a PR without merging? didn't touch <code>.env</code>? did it stop when it hit a migration? If a rule was violated, the guardrail is too weak and the prompt needs to be more specific. The guardrail is only real when you test it against an agent trying to get around it.</p>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-5" id="topico-5">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-5" id="topico-5">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">5</span>
 <h2 class="text-2xl font-bold">🥊 Adversarial maker/checker &amp; verification specialist</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t5-p1">You saw Maker→Checker in Track 2. Here it levels up: the checker stays <strong class="text-amber-400">adversarial</strong>. Instead of just checking, a second agent (or panel) tries to BREAK the work — it’s prompted to refute it, find the flaw, prove it wrong.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t5-p1">You saw Maker→Checker in Track 2. Here it levels up: the checker stays <strong class="text-amber-400">adversarial</strong>. Instead of just checking, a second agent (or panel) tries to BREAK the work — it’s prompted to refute it, find the flaw, prove it wrong.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? "verification specialist"</p>
 <p class="text-sm text-neutral-300"><strong>Verification specialist</strong> would be a subagent whose only role is to check — not to do the work. It receives the finished work and the mission to try to fail it. The benefit of separating them: the one doing the work tends to go easy on itself; the one only checking has no stake in the result.</p>
@@ -378,18 +378,18 @@ REGRAS (nêo negociáveis):
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">The adversarial difference:</strong> the checker doesn’t ask "is it good?" It asks "how can I prove it’s wrong?" It only approves when it CAN’T break it. The person who builds it never grades their own work—that’s the golden rule of verification taken to the attack.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-6" id="topico-6">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-6" id="topico-6">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">6</span>
 <h2 class="text-2xl font-bold">🕸️ Multi-agent / fan-out / orchestration</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t6-p1">The fleet grows: a manager prompting agents that prompt agents — "Russian nesting dolls," nesting within nesting. The pattern that organizes everything is a sequence: <strong class="text-amber-400">orchestrate → delegate (fan-out) → verify</strong>.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t6-p1">The fleet grows: a manager prompting agents that prompt agents — "Russian nesting dolls," nesting within nesting. The pattern that organizes everything is a sequence: <strong class="text-amber-400">orchestrate → delegate (fan-out) → verify</strong>.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? "fan-out" and "orchestration"</p>
 <p class="text-sm text-neutral-300 mb-1"><strong>Fan-out</strong> is splitting a task into several parallel branches: one agent receives the task, breaks it into N pieces, and launches N agents at the same time (1 → N).</p>
@@ -430,18 +430,18 @@ REGRAS (nêo negociáveis):
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-amber-400">Read the fan-out:</strong> A (an orchestrator) → N (multiple agents in parallel) → 1 (a verifier that brings everything together). Parallelism adds speed; the final verification keeps N independent errors from turning into a polished, broken product.</p>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
-<section class="mb-16" data-inema-topic="modulo-4-2#topico-7" id="topico-7">
+<section class="mb-16" data-ARCKHÉ-topic="modulo-4-2#topico-7" id="topico-7">
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xl flex-shrink-0">7</span>
 <h2 class="text-2xl font-bold">🧠 Cross-trial memory (Reflexion)</h2>
 </div>
-<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-ARCKHÉ-doubt-toggle="" title="Mark this topic as a question" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">I have a question</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m4-2-t7-p1">The last pattern changes the unit of the loop: instead of one iteration, a <em>episode</em> entire. The <strong class="text-amber-400">cross-trial memory</strong> (memory between attempts, from the Reflexion paper) lets the loop span multiple attempts: act → receive feedback → reflect in text → save to episodic memory → try again, better, next time.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m4-2-t7-p1">The last pattern changes the unit of the loop: instead of one iteration, a <em>episode</em> entire. The <strong class="text-amber-400">cross-trial memory</strong> (memory between attempts, from the Reflexion paper) lets the loop span multiple attempts: act → receive feedback → reflect in text → save to episodic memory → try again, better, next time.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 New here? "cross-trial memory"</p>
 <p class="text-sm text-neutral-300"><strong>Cross-trial memory</strong> = memory that carries across attempts ("trials"). After failing, the agent writes down what it learned in plain language ("next time, check X before Y") and saves it. On the next attempt, it reads that note and improves — <em>learns through language, not retraining</em> of the model. The model’s weights don’t change; what changes is the score it carries.</p>
@@ -464,17 +464,17 @@ REGRAS (nêo negociáveis):
 <h3 class="text-lg font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🔗</span> Where this takes you</h3>
 <p class="text-neutral-300">Reflexion is the “learns from mistakes” version of the loop. Combine it with the other patterns: a worker in a fleet that SAVES what it learned gets better with every ticket — without you adjusting anything. It’s also the root of the “comprehension debt” idea in 4.3: the more the system learns on its own, the less you understand why it does what it does.</p>
 </div>
-<div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-4-2#q1">
+<div class="ARCKHÉ-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-ARCKHÉ-check="modulo-4-2#q1">
 <p class="font-medium mb-4">In the scheduled fleet pattern, who merges the PR?</p>
-<div class="inema-check-options space-y-2">
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="0" type="button">The worker itself, as soon as it opens the PR — it’s faster.</button>
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="1" type="button">A human — the worker opens the PR but never merges it.</button>
-<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-inema-check-option="2" type="button">The manager, after classifying the backlog.</button>
+<div class="ARCKHÉ-check-options space-y-2">
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="0" type="button">The worker itself, as soon as it opens the PR — it’s faster.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="1" type="button">A human — the worker opens the PR but never merges it.</button>
+<button class="block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm" data-ARCKHÉ-check-option="2" type="button">The manager, after classifying the backlog.</button>
 </div>
-<div aria-live="polite" class="mt-4 text-sm" data-inema-check-feedback="" role="status"></div>
+<div aria-live="polite" class="mt-4 text-sm" data-ARCKHÉ-check-feedback="" role="status"></div>
 </div>
 <div class="flex justify-start mt-6">
-<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Mark as read</span></button>
+<button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30 transition-colors" data-ARCKHÉ-read-toggle="" type="button"><span aria-hidden="true" class="ARCKHÉ-read-icon">○</span><span class="ARCKHÉ-read-label">Mark as read</span></button>
 </div>
 </section>
 <section class="mb-12">
@@ -504,17 +504,17 @@ REGRAS (nêo negociáveis):
 </div>
 <footer class="border-t border-dark-600 py-8 mt-16">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-<p>Agent Loops v2 — Loop Engineering · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+<p>Agent Loops v2 — Loop Engineering · <a class="text-sky-400 hover:text-sky-300" href="https://ARCKHÉ AI" target="_blank">ARCKHÉ AI</a></p>
 </div>
 </footer>
 <script>
     function toggleTopic(button){var ti=button.closest('.topic-item');if(!ti)return;var ex=ti.querySelector('.topic-explanation');var mc=button.closest('.bg-dark-800');if(mc)mc.querySelectorAll('.topic-explanation.active').forEach(function(e){if(e!==ex){e.classList.remove('active');var b=e.closest('.topic-item').querySelector('button');if(b)b.setAttribute('aria-expanded','false');}});if(ex){ex.classList.toggle('active');button.setAttribute('aria-expanded',ex.classList.contains('active').toString());}}
-    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('inema.prefs')||'{}');p.theme=d?'inema-dark':'claro';localStorage.setItem('inema.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+    (function(){var tt=document.getElementById('theme-toggle'),di=document.getElementById('theme-toggle-dark-icon'),li=document.getElementById('theme-toggle-light-icon'),h=document.documentElement;function s(){if(h.classList.contains('dark')){li.classList.remove('hidden');di.classList.add('hidden');}else{di.classList.remove('hidden');li.classList.add('hidden');}}s();tt&&tt.addEventListener('click',function(){h.classList.toggle('dark');var d=h.classList.contains('dark');h.style.colorScheme=d?'dark':'light';try{var p=JSON.parse(localStorage.getItem('ARCKHÉ.prefs')||'{}');p.theme=d?'ARCKHÉ-dark':'claro';localStorage.setItem('ARCKHÉ.prefs',JSON.stringify(p));localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
     function openModal(id){var m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
     function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.add('hidden');});document.body.style.overflow='auto';}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
   </script>
 <script src="../../../assets/learn.js"></script>
-<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-4-2#q1',{answer:1,explain:{0:"Nêo — o worker nunca dá merge; é o guardrail central deste padrêo.",1:"Isso: o worker abre o PR, mas a porta final (o merge) é sempre humana.",2:"O manager só classifica o backlog; ele nêo aprova merges."}});}});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.ARCKHÉ&&ARCKHÉ.init)ARCKHÉ.init();if(window.ARCKHÉ&&ARCKHÉ.registerCheck){ARCKHÉ.registerCheck('modulo-4-2#q1',{answer:1,explain:{0:"Nêo — o worker nunca dá merge; é o guardrail central deste padrêo.",1:"Isso: o worker abre o PR, mas a porta final (o merge) é sempre humana.",2:"O manager só classifica o backlog; ele nêo aprova merges."}});}});</script>
 </body>
 </html>
