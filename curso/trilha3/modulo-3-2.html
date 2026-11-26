@@ -46,7 +46,7 @@
       { "id": "1-3", "title": "O mapa do campo: 11 escolas", "topics": 7, "href": "curso/trilha1/modulo-1-3.html" }
     ]},
     { "n": "2", "title": "Quando usar loop", "modules": [
-      { "id": "2-1", "title": "A escada de decisão", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+      { "id": "2-1", "title": "A escada de decisêo", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
       { "id": "2-2", "title": "As 3 formas de loop", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" },
       { "id": "2-3", "title": "Definir e checar 'pronto'", "topics": 6, "href": "curso/trilha2/modulo-2-3.html" }
     ]},
@@ -154,7 +154,7 @@
 </div>
 </div>
 </nav>
-<nav aria-label="Trilha de navegação" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<nav aria-label="Trilha de navegaçêo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 <div class="flex items-center space-x-2 text-sm text-neutral-400">
 <a class="hover:text-purple-400" href="../../index.html">Início</a><span>/</span>
 <a class="hover:text-purple-400" href="index.html">Trilha 3</a><span>/</span>
@@ -184,10 +184,10 @@
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
 <nav aria-label="Índice da página" class="hidden lg:block sticky top-24 self-start" data-inema-toc="">
-<p class="text-sm text-neutral-400 mb-3">Seção <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></p>
+<p class="text-sm text-neutral-400 mb-3">Seçêo <span class="inema-toc-pos">1</span> de <span class="inema-toc-total">6</span></p>
 <ul class="space-y-1 text-sm">
 <li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-1">1. O primeiro loop: teste falhando</a></li>
-<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-2">2. Versão não-coder: reescrever texto</a></li>
+<li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-2">2. Versêo nêo-coder: reescrever texto</a></li>
 <li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-3">3. /goal e /loop no Claude Code</a></li>
 <li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-4">4. Gate humano pra tarefa arriscada</a></li>
 <li><a class="inema-toc-link block px-3 py-1.5 rounded-lg text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10" href="#topico-5">5. Loop com PROGRESS.md + commits</a></li>
@@ -224,7 +224,7 @@
 <path class="wf-flow" d="M710,117 L788,117" marker-end="url(#m32a-ah)"></path>
 </g>
 <path d="M620,146 C620,200 365,200 365,186" fill="none" marker-end="url(#m32a-ah)" opacity="0.6" stroke="#a855f7" stroke-dasharray="6 6" stroke-width="2"></path>
-<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="492" y="214">não? volta para agir (mais uma volta)</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="11.5" text-anchor="middle" x="492" y="214">nêo? volta para agir (mais uma volta)</text>
 </svg>
 <p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">Leia o diagrama:</strong> todo prompt deste módulo tem a mesma forma — objetivo checável, uma mudança por volta, rodar o check, e parar quando passa (ou no teto). Aprenda a forma uma vez e troque só o miolo.</p>
 </div>
@@ -237,8 +237,8 @@
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t1-p1">Aqui está o loop mais limpo que existe para começar: <strong class="text-purple-400">consertar testes que falham</strong>. O "pronto" é à prova de opinião — ou os testes passam, ou não. O prompt abaixo está completo: abra um projeto pequeno com algum teste quebrado e cole.</p>
-<p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> deixar o Claude Code rodar sozinho, em loop, até toda a suíte passar — fazendo uma correção por vez e parando no teto de tentativas.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t1-p1">Aqui está o loop mais limpo que existe para começar: <strong class="text-purple-400">consertar testes que falham</strong>. O "pronto" é à prova de opiniêo — ou os testes passam, ou nêo. O prompt abaixo está completo: abra um projeto pequeno com algum teste quebrado e cole.</p>
+<p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> deixar o Claude Code rodar sozinho, em loop, até toda a suíte passar — fazendo uma correçêo por vez e parando no teto de tentativas.</p>
 <div class="code-box mb-3">
 <pre><code># Cole no Claude Code dentro de um projeto com testes falhando
 
@@ -246,18 +246,18 @@ Objetivo: faça todo teste em /tests passar ao rodar `npm test`.
 
 Loop:
   (1) rode `npm test` e leia as falhas;
-  (2) abra o arquivo mais responsável pela 1ª falha e faça UMA correção;
+  (2) abra o arquivo mais responsável pela 1ª falha e faça UMA correçêo;
   (3) rode `npm test` de novo pra verificar;
   (4) se ainda falhar, repita do passo 1.
 
-Depois de cada correção que melhora, escreva 1 linha em PROGRESS.md e commite.
+Depois de cada correçêo que melhora, escreva 1 linha em PROGRESS.md e commite.
 Pare quando todos passarem ou após 10 tentativas.
-Não edite nada fora de /src e /tests, e não apague testes pra fazê-los passar.</code></pre>
+Nêo edite nada fora de /src e /tests, e nêo apague testes pra fazê-los passar.</code></pre>
 </div>
 <p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> assista o terminal — você deve ver o ciclo <em>rodar testes → editar 1 arquivo → rodar de novo</em> se repetindo, com o número de falhas caindo. No fim, rode <code class="text-purple-400">npm test</code> você mesmo e confira o verde; abra o PROGRESS.md e o <code class="text-purple-400">git log</code> para ver o rastro de cada volta.</p>
 <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
 <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧩</span> Por que esse é o melhor primeiro loop</h3>
-<p class="text-neutral-300">Ele tem tudo o que um loop sólido precisa, já embutido: objetivo checável por uma máquina (<code>npm test</code>), uma mudança por volta, verificação real a cada passo, estado salvo e um teto de tentativas. Domine essa forma e os outros cinco prompts deste módulo são variações dela.</p>
+<p class="text-neutral-300">Ele tem tudo o que um loop sólido precisa, já embutido: objetivo checável por uma máquina (<code>npm test</code>), uma mudança por volta, verificaçêo real a cada passo, estado salvo e um teto de tentativas. Domine essa forma e os outros cinco prompts deste módulo sêo variações dela.</p>
 </div>
 <div class="flex justify-start mt-6">
 <button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
@@ -267,15 +267,15 @@ Não edite nada fora de /src e /tests, e não apague testes pra fazê-los passar
 <div class="flex items-center justify-between gap-4 mb-6">
 <div class="flex items-center space-x-4">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
-<h2 class="text-2xl font-bold">✍️ Versão não-coder: reescrever texto</h2>
+<h2 class="text-2xl font-bold">✍️ Versêo nêo-coder: reescrever texto</h2>
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t2-p1">Loop não é coisa de programador. <strong class="text-purple-400">A mesma forma serve para texto.</strong> Trocamos só o trabalho e o jeito de checar: o objetivo vira "reescrever este parágrafo", e o "pronto" vira duas regras objetivas que dá para contar.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t2-p1">Loop nêo é coisa de programador. <strong class="text-purple-400">A mesma forma serve para texto.</strong> Trocamos só o trabalho e o jeito de checar: o objetivo vira "reescrever este parágrafo", e o "pronto" vira duas regras objetivas que dá para contar.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? "check Functional"</p>
-<p class="text-sm text-neutral-300 mb-1">Um <strong>check Functional</strong> verifica <em>regras objetivas</em> — coisas que dá para medir: "abaixo de 50 palavras", "contém a palavra preço", "passa no teste". Ele não julga se o texto está bonito; só se as regras batem.</p>
-<p class="text-sm text-neutral-300">É o tipo de check mais confiável para começar, porque a resposta é sempre sim ou não — sem achismo. (Mais à frente você verá os checks <strong>Visual</strong> e <strong>Judgment</strong>.)</p>
+<p class="text-sm text-neutral-300 mb-1">Um <strong>check Functional</strong> verifica <em>regras objetivas</em> — coisas que dá para medir: "abaixo de 50 palavras", "contém a palavra preço", "passa no teste". Ele nêo julga se o texto está bonito; só se as regras batem.</p>
+<p class="text-sm text-neutral-300">É o tipo de check mais confiável para começar, porque a resposta é sempre sim ou nêo — sem achismo. (Mais à frente você verá os checks <strong>Visual</strong> e <strong>Judgment</strong>.)</p>
 </aside>
 <p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> encurtar um parágrafo até passar em duas regras mensuráveis, iterando sozinho até bater (ou parar em 5 tentativas).</p>
 <div class="code-box mb-3">
@@ -286,7 +286,7 @@ Objetivo: reescreva o parágrafo abaixo.
 Pronto quando: o texto está abaixo de 50 palavras E menciona a palavra "preço".
 
 Loop:
-  (1) reescreva uma versão;
+  (1) reescreva uma versêo;
   (2) conte as palavras e procure "preço";
   (3) se quebrar alguma regra, reescreva de novo mirando o que faltou;
   (4) repita.
@@ -296,7 +296,7 @@ Pare quando as duas regras passarem, ou após 5 tentativas.
 Parágrafo:
 &lt;parágrafo que você cola aqui&gt;</code></pre>
 </div>
-<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> peça a contagem final de palavras (deve ser &lt; 50) e procure "preço" no resultado. Repare: o check confere as <em>regras</em>, não se o texto ficou agradável de ler — isso é exatamente um check Functional. Se quiser elegância também, você adicionaria um segundo avaliador (tópico 6).</p>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> peça a contagem final de palavras (deve ser &lt; 50) e procure "preço" no resultado. Repare: o check confere as <em>regras</em>, nêo se o texto ficou agradável de ler — isso é exatamente um check Functional. Se quiser elegância também, você adicionaria um segundo avaliador (tópico 6).</p>
 <div class="flex justify-start mt-6">
 <button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
 </div>
@@ -309,11 +309,11 @@ Parágrafo:
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t3-p1">Em vez de escrever o loop à mão toda vez, você pode declarar o objetivo e deixar o Claude Code montar o ciclo. <strong class="text-purple-400"><code>/goal</code> diz onde chegar; <code>/loop</code> faz girar até lá.</strong> Juntos viram um loop que se auto-dirige e sabe a hora de parar.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t3-p1">Em vez de escrever o loop à mêo toda vez, você pode declarar o objetivo e deixar o Claude Code montar o ciclo. <strong class="text-purple-400"><code>/goal</code> diz onde chegar; <code>/loop</code> faz girar até lá.</strong> Juntos viram um loop que se auto-dirige e sabe a hora de parar.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? <code>/goal</code> e <code>/loop</code></p>
 <p class="text-sm text-neutral-300 mb-1"><strong><code>/goal</code></strong> é onde você declara o destino e a nota de "pronto": o que produzir e qual critério precisa bater. É a meta + a régua, num lugar só.</p>
-<p class="text-sm text-neutral-300"><strong><code>/loop</code></strong> é o que repete o ciclo gerar → avaliar → melhorar em direção a esse goal, parando quando a régua passa ou no teto. <em>Self-directing</em> (escolhe os passos) e <em>self-terminating</em> (sabe quando acabar).</p>
+<p class="text-sm text-neutral-300"><strong><code>/loop</code></strong> é o que repete o ciclo gerar → avaliar → melhorar em direçêo a esse goal, parando quando a régua passa ou no teto. <em>Self-directing</em> (escolhe os passos) e <em>self-terminating</em> (sabe quando acabar).</p>
 </aside>
 <p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> gerar e refinar conceitos de thumbnail até um deles atingir a nota-alvo numa rubrica que você mesmo define.</p>
 <div class="code-box mb-3">
@@ -332,7 +332,7 @@ Parágrafo:
       rubrica e mantenha a melhor. Pare quando bater a nota-alvo ou após
       8 voltas. Mostre a tabela de notas no fim.</code></pre>
 </div>
-<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> no fim deve aparecer uma tabela com cada conceito e suas três notas, e o vencedor com média ≥ 8 (ou um aviso de que parou no teto sem bater). Confira você se a rubrica foi aplicada de forma consistente — se duas thumbnails parecidas tiraram notas muito diferentes, aperte a descrição dos critérios.</p>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> no fim deve aparecer uma tabela com cada conceito e suas três notas, e o vencedor com média ≥ 8 (ou um aviso de que parou no teto sem bater). Confira você se a rubrica foi aplicada de forma consistente — se duas thumbnails parecidas tiraram notas muito diferentes, aperte a descriçêo dos critérios.</p>
 <div class="flex justify-start mt-6">
 <button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
 </div>
@@ -345,12 +345,12 @@ Parágrafo:
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t4-p1">Quando o loop pode tocar em algo que dói desfazer — apagar arquivos, enviar e-mail, fazer um pagamento — você não quer que ele decida sozinho. Adicione um <strong class="text-purple-400">gate humano</strong>: uma linha que obriga o agente a parar e pedir sua confirmação antes de qualquer ação irreversível.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t4-p1">Quando o loop pode tocar em algo que dói desfazer — apagar arquivos, enviar e-mail, fazer um pagamento — você nêo quer que ele decida sozinho. Adicione um <strong class="text-purple-400">gate humano</strong>: uma linha que obriga o agente a parar e pedir sua confirmaçêo antes de qualquer açêo irreversível.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? o check "You-decide"</p>
-<p class="text-sm text-neutral-300">Um check <strong>You-decide</strong> (você-decide) é quando a checagem é <em>você</em>: o loop chega num ponto sensível e devolve a decisão a um humano em vez de seguir. Diferente do check Functional (automático), aqui o "pronto?" da ação arriscada é o seu sim. É o seu cinto de segurança no primeiro run.</p>
+<p class="text-sm text-neutral-300">Um check <strong>You-decide</strong> (você-decide) é quando a checagem é <em>você</em>: o loop chega num ponto sensível e devolve a decisêo a um humano em vez de seguir. Diferente do check Functional (automático), aqui o "pronto?" da açêo arriscada é o seu sim. É o seu cinto de segurança no primeiro run.</p>
 </aside>
-<p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> rodar um loop normalmente, mas com um freio que impede qualquer ação destrutiva ou externa sem sua aprovação explícita.</p>
+<p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> rodar um loop normalmente, mas com um freio que impede qualquer açêo destrutiva ou externa sem sua aprovaçêo explícita.</p>
 <div class="code-box mb-3">
 <pre><code># Acrescente esta linha a QUALQUER prompt de loop deste módulo
 
@@ -361,7 +361,7 @@ Trate como irreversível: apagar/sobrescrever arquivos fora de /src,
 fazer git push, enviar e-mail/mensagem, ou qualquer pagamento.
 Nesses casos, descreva o que faria e espere meu "ok" antes de agir.</code></pre>
 </div>
-<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> rode o loop sobre uma tarefa que naturalmente chega numa ação arriscada (ex.: limpar uma pasta). O agente deve <em>parar e perguntar</em> em vez de executar — se ele apagar algo sem te consultar, o gate não pegou: torne a lista de ações irreversíveis mais específica e teste de novo num diretório de brinquedo.</p>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> rode o loop sobre uma tarefa que naturalmente chega numa açêo arriscada (ex.: limpar uma pasta). O agente deve <em>parar e perguntar</em> em vez de executar — se ele apagar algo sem te consultar, o gate nêo pegou: torne a lista de ações irreversíveis mais específica e teste de novo num diretório de brinquedo.</p>
 <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
 <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> Use isto no seu primeiro run, sempre</h3>
 <p class="text-neutral-300">No começo, escope as permissões para o mínimo (editar /src e /tests, rodar testes) e ponha este gate por cima. O loop trabalha; <strong>o merge, o push e o envio ficam com você</strong>. É barato de adicionar e te salva de um estrago irreversível enquanto você ainda está aprendendo a confiar no loop.</p>
@@ -378,7 +378,7 @@ Nesses casos, descreva o que faria e espere meu "ok" antes de agir.</code></pre>
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t5-p1">Tarefas grandes não cabem numa única passada. A solução é dar ao loop <strong class="text-purple-400">um lugar para guardar o estado</strong>: um arquivo de progresso que ele lê no começo e atualiza no fim de cada volta, mais um commit por mudança. Assim, se a sessão acabar, a próxima retoma de onde parou.</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t5-p1">Tarefas grandes nêo cabem numa única passada. A soluçêo é dar ao loop <strong class="text-purple-400">um lugar para guardar o estado</strong>: um arquivo de progresso que ele lê no começo e atualiza no fim de cada volta, mais um commit por mudança. Assim, se a sessêo acabar, a próxima retoma de onde parou.</p>
 <aside class="bg-dark-800 border border-dark-600 border-l-4 border-l-sky-500/60 rounded-xl p-4 mb-6">
 <p class="text-sm font-semibold text-sky-400 mb-2">📘 Novo aqui? PROGRESS.md e commit</p>
 <p class="text-sm text-neutral-300 mb-1"><strong>PROGRESS.md</strong> é só um arquivo de texto onde o agente anota, em linguagem humana, o que já fez e o que falta. É a "memória externa" do loop — sobrevive ao fim do contexto.</p>
@@ -394,15 +394,15 @@ No início de cada volta:
   - leia PROGRESS.md para saber o que já foi feito e o que vem a seguir.
 
 Durante a volta:
-  - escolha a PRÓXIMA tarefa não-feita e trabalhe SÓ nela (uma de cada vez);
+  - escolha a PRÓXIMA tarefa nêo-feita e trabalhe SÓ nela (uma de cada vez);
   - rode os testes para verificar a mudança (self-verify);
   - se passou: atualize PROGRESS.md (marque a tarefa, anote 1 linha do que fez)
     e faça um commit com uma mensagem curta e clara;
   - deixe a árvore de trabalho limpa (sem arquivos soltos) para a próxima volta.
 
-Pare quando PROGRESS.md não tiver mais tarefas, ou após 15 voltas.</code></pre>
+Pare quando PROGRESS.md nêo tiver mais tarefas, ou após 15 voltas.</code></pre>
 </div>
-<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> abra o PROGRESS.md e veja o histórico crescendo linha a linha; rode <code class="text-purple-400">git log --oneline</code> e confira um commit por mudança. O teste de fogo: interrompa o loop no meio, comece uma sessão nova com o mesmo prompt e veja se ele <em>retoma da tarefa certa</em> em vez de recomeçar do zero.</p>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> abra o PROGRESS.md e veja o histórico crescendo linha a linha; rode <code class="text-purple-400">git log --oneline</code> e confira um commit por mudança. O teste de fogo: interrompa o loop no meio, comece uma sessêo nova com o mesmo prompt e veja se ele <em>retoma da tarefa certa</em> em vez de recomeçar do zero.</p>
 <div class="flex justify-start mt-6">
 <button aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors" data-inema-read-toggle="" type="button"><span aria-hidden="true" class="inema-read-icon">○</span><span class="inema-read-label">Marcar como lido</span></button>
 </div>
@@ -415,15 +415,15 @@ Pare quando PROGRESS.md não tiver mais tarefas, ou após 15 voltas.</code></pre
 </div>
 <button aria-pressed="false" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm flex-shrink-0" data-inema-doubt-toggle="" title="Marcar dúvida neste tópico" type="button"><span aria-hidden="true">?</span><span class="hidden sm:inline">Tenho dúvida</span></button>
 </div>
-<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t6-p1">Todos os prompts deste módulo são o mesmo esqueleto com peças trocadas. Para a SUA tarefa, mantenha a <strong class="text-purple-400">forma do loop</strong> e troque só duas coisas: <strong class="text-purple-400">o domínio</strong> (que trabalho) e <strong class="text-purple-400">o checker</strong> (como medir "pronto").</p>
+<p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t6-p1">Todos os prompts deste módulo sêo o mesmo esqueleto com peças trocadas. Para a SUA tarefa, mantenha a <strong class="text-purple-400">forma do loop</strong> e troque só duas coisas: <strong class="text-purple-400">o domínio</strong> (que trabalho) e <strong class="text-purple-400">o checker</strong> (como medir "pronto").</p>
 <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
-<img alt="Um terminal com um prompt de loop sendo colado e rodando, com botão de copiar destacado" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t3-copyrun.png"/>
-<p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">O que ver:</strong> o fluxo é sempre copiar → colar → rodar → observar. O que muda de tarefa para tarefa não é a mecânica, são os campos &lt;entre setas&gt;: o objetivo, o que conta como pronto e o teto.</p>
+<img alt="Um terminal com um prompt de loop sendo colado e rodando, com botêo de copiar destacado" class="w-full h-auto rounded-xl" loading="lazy" src="../../assets/img/t3-copyrun.png"/>
+<p class="text-sm text-neutral-400 mt-3"><strong class="text-purple-400">O que ver:</strong> o fluxo é sempre copiar → colar → rodar → observar. O que muda de tarefa para tarefa nêo é a mecânica, sêo os campos &lt;entre setas&gt;: o objetivo, o que conta como pronto e o teto.</p>
 </div>
 <p class="text-neutral-400 text-sm mb-3">Os três tipos de checker que você vai trocar conforme a tarefa:</p>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-purple-400 mb-1">⚙️ Functional</h4><p class="text-sm text-neutral-400">Regras objetivas: testes passam, &lt; 50 palavras, build compila. Resposta sim/não.</p></div>
-<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-purple-400 mb-1">🖼️ Visual</h4><p class="text-sm text-neutral-400">Tira um screenshot e compara com o esperado: layout, cor, "o botão apareceu?".</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-purple-400 mb-1">⚙️ Functional</h4><p class="text-sm text-neutral-400">Regras objetivas: testes passam, &lt; 50 palavras, build compila. Resposta sim/nêo.</p></div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-purple-400 mb-1">🖼️ Visual</h4><p class="text-sm text-neutral-400">Tira um screenshot e compara com o esperado: layout, cor, "o botêo apareceu?".</p></div>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><h4 class="font-semibold text-purple-400 mb-1">🧑‍⚖️ Judgment</h4><p class="text-sm text-neutral-400">Um 2º agente dá nota numa rubrica (tom, clareza) até passar. Para qualidade subjetiva.</p></div>
 </div>
 <p class="text-neutral-400 text-sm mb-3"><strong class="text-purple-400">Objetivo:</strong> ter um template em branco para preencher com a sua tarefa — só troque os campos marcados <code>&lt;assim&gt;</code> e cole.</p>
@@ -434,17 +434,17 @@ Objetivo: &lt;o que produzir, numa frase&gt;.
 Pronto quando: &lt;o critério checável de "pronto"&gt;.
 
 Loop:
-  (1) faça UMA mudança em direção ao objetivo;
+  (1) faça UMA mudança em direçêo ao objetivo;
   (2) rode o check: &lt;como medir — testes / contar / screenshot / 2º agente&gt;;
-  (3) se não passou, ajuste mirando o que faltou;
+  (3) se nêo passou, ajuste mirando o que faltou;
   (4) repita.
 
 Salve o progresso: &lt;ex.: 1 linha em PROGRESS.md + commit a cada melhora&gt;.
 Pare quando passar, ou após &lt;N&gt; tentativas.
-Não toque em &lt;o que está fora de escopo&gt;; pause e me pergunte antes de
-qualquer ação irreversível.</code></pre>
+Nêo toque em &lt;o que está fora de escopo&gt;; pause e me pergunte antes de
+qualquer açêo irreversível.</code></pre>
 </div>
-<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> se você conseguiu preencher os quatro campos sem hesitar — objetivo, critério de pronto, qual checker, e o teto — sua tarefa está pronta para virar loop. Se travou no "Pronto quando", o problema não é o prompt: é que a tarefa ainda não tem um "pronto" checável (volte ao módulo 3.1, passo 2).</p>
+<p class="text-sm text-neutral-400 mb-6"><strong class="text-purple-400">Como verificar:</strong> se você conseguiu preencher os quatro campos sem hesitar — objetivo, critério de pronto, qual checker, e o teto — sua tarefa está pronta para virar loop. Se travou no "Pronto quando", o problema nêo é o prompt: é que a tarefa ainda nêo tem um "pronto" checável (volte ao módulo 3.1, passo 2).</p>
 <div class="inema-check mt-8 bg-dark-800 border border-dark-600 rounded-xl p-6" data-inema-check="modulo-3-2#q1">
 <p class="font-medium mb-4">Ao adaptar o template para uma tarefa nova, o que você troca?</p>
 <div class="inema-check-options space-y-2">
@@ -463,7 +463,7 @@ qualquer ação irreversível.</code></pre>
 <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧾</span> Resumo do Módulo</h2>
 <div class="space-y-4 mb-8">
 <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">O primeiro loop</strong><span class="text-neutral-400"> — consertar testes que falham: objetivo checável por máquina, uma mudança por volta, teto de tentativas.</span></div></div>
-<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Versão não-coder</strong><span class="text-neutral-400"> — a mesma forma para texto, com um check Functional (regras que dá para contar).</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Versêo nêo-coder</strong><span class="text-neutral-400"> — a mesma forma para texto, com um check Functional (regras que dá para contar).</span></div></div>
 <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">/goal e /loop</strong><span class="text-neutral-400"> — declarar o destino e deixar o ciclo se auto-dirigir e se auto-terminar.</span></div></div>
 <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Gate humano</strong><span class="text-neutral-400"> — o check You-decide: pause antes de deletar, enviar ou pagar.</span></div></div>
 <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">PROGRESS.md + commits</strong><span class="text-neutral-400"> — estado externo para loops longos que podem ser retomados.</span></div></div>
@@ -495,6 +495,6 @@ qualquer ação irreversível.</code></pre>
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
   </script>
 <script src="../../assets/learn.js"></script>
-<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-3-2#q1',{answer:1,explain:{0:"Não precisa — a forma do loop (agir→checar→repetir→parar) é a mesma; recriar do zero é trabalho à toa.",1:"Isso: você mantém a forma e troca só o domínio e o checker. Por isso é um template.",2:"Quase — a forma serve, mas você precisa trocar o domínio e o jeito de checar 'pronto'."}});}});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.INEMA&&INEMA.init)INEMA.init();if(window.INEMA&&INEMA.registerCheck){INEMA.registerCheck('modulo-3-2#q1',{answer:1,explain:{0:"Nêo precisa — a forma do loop (agir→checar→repetir→parar) é a mesma; recriar do zero é trabalho à toa.",1:"Isso: você mantém a forma e troca só o domínio e o checker. Por isso é um template.",2:"Quase — a forma serve, mas você precisa trocar o domínio e o jeito de checar 'pronto'."}});}});</script>
 </body>
 </html>
